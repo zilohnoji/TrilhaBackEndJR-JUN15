@@ -1,0 +1,15 @@
+spring:
+  application:
+    name: rg-code
+
+  jpa:
+    show_sql: true
+    open-in-view: false
+    database-platform: org.hibernate.community.dialect.SQLiteDialect
+
+    hibernate:
+      ddl-auto: create-drop
+
+  datasource:
+    driverClassName: org.sqlite.JDBC
+    url: jdbc:sqlite:memory:myDb?cache=shared
