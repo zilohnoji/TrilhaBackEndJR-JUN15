@@ -23,7 +23,7 @@ public class TaskTest {
                 () -> String.format("The title expected is %s, but Task return %s", TITLE, entity.getTitle()));
 
         Assertions.assertEquals(CONTENT, entity.getContent(),
-                () -> String.format("The title expected is %s, but Task return %s", CONTENT, entity.getContent()));
+                () -> String.format("The content expected is %s, but Task return %s", CONTENT, entity.getContent()));
 
         Assertions.assertEquals(TaskStatus.COMPLETED, entity.getStatus(),
                 () -> String.format("The status expected is %s, but Task return %s", TaskStatus.COMPLETED, entity.getStatus())
@@ -42,7 +42,7 @@ public class TaskTest {
                 () -> String.format("The title expected is %s, but Task return %s", TITLE, entity.getTitle()));
 
         Assertions.assertEquals(CONTENT, entity.getContent(),
-                () -> String.format("The title expected is %s, but Task return %s", CONTENT, entity.getContent()));
+                () -> String.format("The content expected is %s, but Task return %s", CONTENT, entity.getContent()));
 
         Assertions.assertEquals(TaskStatus.PROGRESS, entity.getStatus(),
                 () -> String.format("The status expected is %s, but Task return %s", TaskStatus.PROGRESS, entity.getStatus())
@@ -61,7 +61,7 @@ public class TaskTest {
                 () -> String.format("The title expected is %s, but Task return %s", TITLE, entity.getTitle()));
 
         Assertions.assertEquals(CONTENT, entity.getContent(),
-                () -> String.format("The title expected is %s, but Task return %s", CONTENT, entity.getContent()));
+                () -> String.format("The content expected is %s, but Task return %s", CONTENT, entity.getContent()));
 
         Assertions.assertEquals(TaskStatus.QUIT, entity.getStatus(),
                 () -> String.format("The status expected is %s, but Task return %s", TaskStatus.QUIT, entity.getStatus())
