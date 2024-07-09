@@ -20,18 +20,26 @@ public class User {
     private String password;
     private boolean enabled;
 
-    @OneToOne(mappedBy = "user")
+    @OneToOne(mappedBy = "user", cascade = CascadeType.ALL)
     private EmailCodeConfirmation code;
 
-    @ManyToMany
+    @ManyToMany(cascade = CascadeType.ALL)
     @JoinTable(name = "tb_user_role", joinColumns = @JoinColumn(name = "user_id", referencedColumnName = "id"),
             inverseJoinColumns = @JoinColumn(name = "role_id", referencedColumnName = "id"))
     private final Set<Role> roles = new HashSet<>();
 
-    @OneToMany(mappedBy = "user")
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
     private final Set<Task> tasks = new HashSet<>();
 
     private User() {
+    }
+
+    public EmailCodeConfirmation getCode() {
+        return code;
+    }
+
+    public void setCode(EmailCodeConfirmation code) {
+        this.code = code;
     }
 
     public void addTask(Task task) {
