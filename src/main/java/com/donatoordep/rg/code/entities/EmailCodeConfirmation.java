@@ -1,5 +1,6 @@
 package com.donatoordep.rg.code.entities;
 
+import com.donatoordep.rg.code.builders.entities.EmailCodeConfirmationSpecificationBuilder;
 import jakarta.persistence.*;
 
 import java.time.LocalDateTime;
@@ -23,6 +24,48 @@ public class EmailCodeConfirmation {
     private User user;
 
     private EmailCodeConfirmation() {
+    }
+
+
+    public static class EmailCodeConfirmationBuilder implements EmailCodeConfirmationSpecificationBuilder {
+
+        private EmailCodeConfirmation entity;
+
+        private EmailCodeConfirmationBuilder() {
+            this.reset();
+        }
+
+        @Override
+        public EmailCodeConfirmation build() {
+            return this.entity;
+        }
+
+        public static EmailCodeConfirmationBuilder builder() {
+            return new EmailCodeConfirmationBuilder();
+        }
+
+        @Override
+        public EmailCodeConfirmationSpecificationBuilder id(UUID id) {
+            this.entity.setId(id);
+            return this;
+        }
+
+        @Override
+        public EmailCodeConfirmationSpecificationBuilder code(String code) {
+            this.entity.setCode(code);
+            return this;
+        }
+
+        @Override
+        public EmailCodeConfirmationSpecificationBuilder expiredAt(LocalDateTime expiredAt) {
+            this.entity.setExpiredAt(expiredAt);
+            return this;
+        }
+
+        @Override
+        public void reset() {
+            this.entity = new EmailCodeConfirmation();
+        }
     }
 
     public UUID getId() {
