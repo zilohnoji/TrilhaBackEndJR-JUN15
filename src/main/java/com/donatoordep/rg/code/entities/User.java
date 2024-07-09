@@ -1,6 +1,7 @@
 package com.donatoordep.rg.code.entities;
 
 import com.donatoordep.rg.code.builders.entities.UserSpecificationBuilder;
+import com.donatoordep.rg.code.enums.RoleName;
 import jakarta.persistence.*;
 
 import java.time.LocalDateTime;
@@ -81,8 +82,14 @@ public class User {
         public UserSpecificationBuilder code(String code, LocalDateTime expiredAt) {
             this.entity.setCode(EmailCodeConfirmation.EmailCodeConfirmationBuilder.builder()
                     .id(UUID.randomUUID())
-                    .expiredAt(LocalDateTime.now().plusMinutes(30))
+                    .expiredAt(expiredAt)
                     .build());
+            return this;
+        }
+
+        @Override
+        public UserSpecificationBuilder role(RoleName role) {
+            this.entity.addRole(new Role(role));
             return this;
         }
 
@@ -90,6 +97,14 @@ public class User {
         public void reset() {
             this.entity = new User();
         }
+    }
+
+    public Set<Role> getRoles() {
+        return roles;
+    }
+
+    public Set<Task> getTasks() {
+        return tasks;
     }
 
     public EmailCodeConfirmation getCode() {
