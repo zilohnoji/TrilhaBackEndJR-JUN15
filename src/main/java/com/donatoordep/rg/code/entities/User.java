@@ -1,7 +1,9 @@
 package com.donatoordep.rg.code.entities;
 
+import com.donatoordep.rg.code.builders.entities.UserSpecificationBuilder;
 import jakarta.persistence.*;
 
+import java.time.LocalDateTime;
 import java.util.HashSet;
 import java.util.Objects;
 import java.util.Set;
@@ -32,6 +34,62 @@ public class User {
     private final Set<Task> tasks = new HashSet<>();
 
     private User() {
+    }
+
+    public static class UserBuilder implements UserSpecificationBuilder {
+
+        private User entity;
+
+        private UserBuilder() {
+            this.reset();
+        }
+
+        @Override
+        public User build() {
+            return this.entity;
+        }
+
+        public static UserBuilder builder() {
+            return new UserBuilder();
+        }
+
+        @Override
+        public UserSpecificationBuilder id(UUID id) {
+            this.entity.setId(id);
+            return this;
+        }
+
+        @Override
+        public UserSpecificationBuilder name(String name) {
+            this.entity.setName(name);
+            return this;
+        }
+
+        @Override
+        public UserSpecificationBuilder email(String email) {
+            this.entity.setEmail(email);
+            return this;
+        }
+
+        @Override
+        public UserSpecificationBuilder password(String password) {
+            this.entity.setPassword(password);
+            return this;
+        }
+
+        @Override
+        public UserSpecificationBuilder code(String code, LocalDateTime expiredAt) {
+            this.entity.setCode(EmailCodeConfirmation.EmailCodeConfirmationBuilder.builder()
+                    .id(UUID.randomUUID())
+                    .expiredAt(LocalDateTime.now().plusMinutes(30))
+                    .build());
+            return this;
+        }
+
+        @Override
+        public void reset() {
+            this.entity = new User();
+        }
     }
 
     public EmailCodeConfirmation getCode() {
