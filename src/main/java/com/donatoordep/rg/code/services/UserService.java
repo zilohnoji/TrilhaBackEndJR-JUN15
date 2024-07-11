@@ -2,6 +2,7 @@ package com.donatoordep.rg.code.services;
 
 import com.donatoordep.rg.code.dtos.request.UserRequestRegisterDTO;
 import com.donatoordep.rg.code.dtos.response.UserResponseRegisterDTO;
+import com.donatoordep.rg.code.entities.EmailCodeConfirmation;
 import com.donatoordep.rg.code.entities.User;
 import com.donatoordep.rg.code.mappers.dto.response.UserResponseDTOMapper;
 import com.donatoordep.rg.code.mappers.entities.UserMapper;
@@ -13,6 +14,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.io.UnsupportedEncodingException;
+import java.time.LocalDateTime;
 
 @Service
 @Transactional
@@ -33,7 +35,7 @@ public class UserService {
 
         User entity = UserMapper.toEntity(request);
 
-        entity.setCode(EmailService.generateEmailCodeConfirmation());
+        entity.setCode(EmailCodeConfirmation.createCodeConfirmation(LocalDateTime.now().plusMinutes(30), 32));
         entity.setPassword(passwordEncoder.encode(request.getPassword()));
 
         emailService.sendCodeForEmail(entity.getCode(), request.getEmail());
