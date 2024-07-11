@@ -8,8 +8,6 @@ import java.util.UUID;
 
 public interface EmailCodeConfirmationSpecificationBuilder extends Builder<EmailCodeConfirmation> {
 
-    EmailCodeConfirmationSpecificationBuilder id(UUID id);
-
     EmailCodeConfirmationSpecificationBuilder code(String code);
 
     EmailCodeConfirmationSpecificationBuilder expiredAt(LocalDateTime expiredAt);

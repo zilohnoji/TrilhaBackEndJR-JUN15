@@ -6,7 +6,6 @@ import jakarta.persistence.*;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
-import java.time.LocalDateTime;
 import java.util.*;
 
 @Entity
@@ -22,7 +21,7 @@ public class User implements UserDetails {
     private String password;
     private boolean enabled;
 
-    @OneToOne(mappedBy = "user", cascade = CascadeType.ALL)
+    @OneToOne(cascade = CascadeType.ALL)
     private EmailCodeConfirmation code;
 
     @ManyToMany(cascade = CascadeType.ALL)
@@ -54,12 +53,6 @@ public class User implements UserDetails {
         }
 
         @Override
-        public UserSpecificationBuilder id(UUID id) {
-            this.entity.setId(id);
-            return this;
-        }
-
-        @Override
         public UserSpecificationBuilder name(String name) {
             this.entity.setName(name);
             return this;
@@ -78,11 +71,8 @@ public class User implements UserDetails {
         }
 
         @Override
-        public UserSpecificationBuilder code(String code, LocalDateTime expiredAt) {
-            this.entity.setCode(EmailCodeConfirmation.EmailCodeConfirmationBuilder.builder()
-                    .id(UUID.randomUUID())
-                    .expiredAt(expiredAt)
-                    .build());
+        public UserSpecificationBuilder code(EmailCodeConfirmation code) {
+            this.entity.setCode(code);
             return this;
         }
 

@@ -2,6 +2,28 @@ spring:
   application:
     name: rg-code
 
+  mail:
+    host: smtp.gmail.com
+    port: 587
+    username: ${SMTP_EMAIL:donatopedro.developer@gmail.com}
+    password: ${SMTP_PASSWORD:iwagoqeghjlnpvnt}
+    test-connection: false
+    properties:
+      mail:
+        smtp:
+          auth: true
+          starttls:
+            required: true
+            enable: true
+
+    confirmation:
+      code:
+        time:
+          expiration: ${CODE_CONFIRMATION_TIME_EXPIRATION:5}
+
+    support:
+      mail: ${SMTP_SUPPORT_EMAIL:donatopedro.developer@gmail.com}
+
   jpa:
     show_sql: true
     open-in-view: false

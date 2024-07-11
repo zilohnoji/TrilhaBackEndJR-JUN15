@@ -4,6 +4,7 @@ import com.donatoordep.rg.code.configurations.filters.WebAuthenticationFilter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.http.HttpMethod;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.annotation.authentication.configuration.AuthenticationConfiguration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
@@ -32,14 +33,15 @@ public class WebSecurityConfig {
         this.webAuthenticationFilter = webAuthenticationFilter;
     }
 
+    @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
 
+        http.csrf(AbstractHttpConfigurer::disable);
         http.sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS));
         http.cors(cors -> cors.configurationSource(configureResourceOfCors()));
-        http.csrf(AbstractHttpConfigurer::disable);
 
         http.authorizeHttpRequests(authorization -> {
-            authorization.requestMatchers("/**").permitAll();
+            authorization.requestMatchers(HttpMethod.POST, "/users").permitAll(); // Endpoint ainda não projetado
         });
 
         http.addFilterBefore(webAuthenticationFilter, UsernamePasswordAuthenticationFilter.class);

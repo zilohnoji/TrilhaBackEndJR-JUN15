@@ -19,10 +19,6 @@ public class EmailCodeConfirmation {
 
     private LocalDateTime expiredAt;
 
-    @OneToOne
-    @JoinColumn(name = "user_id")
-    private User user;
-
     private EmailCodeConfirmation() {
     }
 
@@ -41,12 +37,6 @@ public class EmailCodeConfirmation {
 
         public static EmailCodeConfirmationBuilder builder() {
             return new EmailCodeConfirmationBuilder();
-        }
-
-        @Override
-        public EmailCodeConfirmationSpecificationBuilder id(UUID id) {
-            this.entity.setId(id);
-            return this;
         }
 
         @Override
