@@ -22,9 +22,6 @@ public class EmailService {
     @Value("${spring.mail.support.mail}")
     private String supportMail;
 
-    @Value("${spring.mail.confirmation.code.time.expiration}")
-    private Long expiredAt;
-
     private void sendEmailToClient(String subject, String email, String content) throws UnsupportedEncodingException, MessagingException {
 
         MimeMessage mimeMessage = sender.createMimeMessage();
@@ -38,9 +35,9 @@ public class EmailService {
         sender.send(mimeMessage);
     }
 
-    public EmailCodeConfirmation generateEmailCodeConfirmation() {
+    public static EmailCodeConfirmation generateEmailCodeConfirmation() {
         return EmailCodeConfirmation.EmailCodeConfirmationBuilder.builder()
-                .expiredAt(LocalDateTime.now().plusMinutes(expiredAt))
+                .expiredAt(LocalDateTime.now().plusMinutes(30))
                 .code(RandomStringUtils.randomAlphabetic(32))
                 .build();
     }

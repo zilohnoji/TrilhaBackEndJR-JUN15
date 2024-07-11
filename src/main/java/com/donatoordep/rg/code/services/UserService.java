@@ -3,7 +3,8 @@ package com.donatoordep.rg.code.services;
 import com.donatoordep.rg.code.dtos.request.UserRequestRegisterDTO;
 import com.donatoordep.rg.code.dtos.response.UserResponseRegisterDTO;
 import com.donatoordep.rg.code.entities.User;
-import com.donatoordep.rg.code.enums.RoleName;
+import com.donatoordep.rg.code.mappers.dto.response.UserResponseDTOMapper;
+import com.donatoordep.rg.code.mappers.entities.UserMapper;
 import com.donatoordep.rg.code.repositories.UserRepository;
 import jakarta.mail.MessagingException;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -30,18 +31,13 @@ public class UserService {
 
     public UserResponseRegisterDTO register(UserRequestRegisterDTO request) throws MessagingException, UnsupportedEncodingException {
 
-        User entity = User.UserBuilder.builder()
-                .name(request.getName())
-                .email(request.getEmail())
-                .password(passwordEncoder.encode(request.getPassword()))
-                .role(RoleName.ROLE_USER)
-                .code(emailService.generateEmailCodeConfirmation())
-                .build();
+        User entity = UserMapper.toEntity(request);
 
-        userRepository.save(entity);
+        entity.setCode(EmailService.generateEmailCodeConfirmation());
+        entity.setPassword(passwordEncoder.encode(request.getPassword()));
 
         emailService.sendCodeForEmail(entity.getCode(), request.getEmail());
 
-        return new UserResponseRegisterDTO(entity.getId(), entity.getName(), entity.getEmail());
+        return UserResponseDTOMapper.toResponse(userRepository.save(entity));
     }
 }

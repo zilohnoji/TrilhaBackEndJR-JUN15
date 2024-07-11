@@ -1,5 +1,7 @@
 package com.donatoordep.rg.code.dtos.response;
 
+import com.donatoordep.rg.code.builders.dtos.response.UserResponseRegisterDTOSpecificationBuilder;
+
 import java.util.UUID;
 
 public class UserResponseRegisterDTO {
@@ -8,9 +10,60 @@ public class UserResponseRegisterDTO {
     private String name;
     private String email;
 
-    public UserResponseRegisterDTO(UUID identifier, String name, String email) {
+    private UserResponseRegisterDTO() {
+    }
+
+
+    public static class UserResponseRegisterDTOBuilder implements UserResponseRegisterDTOSpecificationBuilder {
+
+        private UserResponseRegisterDTO dto;
+
+        private UserResponseRegisterDTOBuilder() {
+            this.reset();
+        }
+
+        @Override
+        public UserResponseRegisterDTO build() {
+            return this.dto;
+        }
+
+        public static UserResponseRegisterDTOBuilder builder() {
+            return new UserResponseRegisterDTOBuilder();
+        }
+
+        @Override
+        public UserResponseRegisterDTOSpecificationBuilder identifier(UUID id) {
+            this.dto.setIdentifier(id);
+            return this;
+        }
+
+        @Override
+        public UserResponseRegisterDTOSpecificationBuilder name(String name) {
+            this.dto.setName(name);
+            return this;
+        }
+
+        @Override
+        public UserResponseRegisterDTOSpecificationBuilder email(String email) {
+            this.dto.setEmail(email);
+            return this;
+        }
+
+        @Override
+        public void reset() {
+            this.dto = new UserResponseRegisterDTO();
+        }
+    }
+
+    public void setIdentifier(UUID identifier) {
         this.identifier = identifier;
+    }
+
+    public void setName(String name) {
         this.name = name;
+    }
+
+    public void setEmail(String email) {
         this.email = email;
     }
 

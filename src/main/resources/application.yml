@@ -16,11 +16,6 @@ spring:
             required: true
             enable: true
 
-    confirmation:
-      code:
-        time:
-          expiration: ${CODE_CONFIRMATION_TIME_EXPIRATION:5}
-
     support:
       mail: ${SMTP_SUPPORT_EMAIL:donatopedro.developer@gmail.com}
 
