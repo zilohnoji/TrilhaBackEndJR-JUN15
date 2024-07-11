@@ -26,7 +26,6 @@ public class EmailCodeConfirmation {
     private EmailCodeConfirmation() {
     }
 
-
     public static class EmailCodeConfirmationBuilder implements EmailCodeConfirmationSpecificationBuilder {
 
         private EmailCodeConfirmation entity;
