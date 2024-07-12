@@ -41,7 +41,7 @@ public class WebSecurityConfig {
         http.cors(cors -> cors.configurationSource(configureResourceOfCors()));
 
         http.authorizeHttpRequests(authorization -> {
-            authorization.requestMatchers(HttpMethod.POST, "/users").permitAll(); // Endpoint ainda não projetado
+            authorization.requestMatchers(HttpMethod.POST, "/users").permitAll();
         });
 
         http.addFilterBefore(webAuthenticationFilter, UsernamePasswordAuthenticationFilter.class);

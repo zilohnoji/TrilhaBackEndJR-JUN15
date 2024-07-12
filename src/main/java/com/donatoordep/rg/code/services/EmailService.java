@@ -85,7 +85,7 @@ public class EmailService {
                 "  </div>" +
                 "  <div class='container-codigo'>" +
                 "    <p>Código: <span class='green'>" + code + "</span></p>" +
-                "    <p>Tempo de expiração: <span class='yellow'>" + expiredAt.getMinute() + "min</span></p>" +
+                "    <p>Tempo de expiração: <span class='yellow'>" + (LocalDateTime.now().getMinute() - expiredAt.getMinute()) + "min</span></p>" +
                 "  </div>" +
                 "</body>" +
                 "</html>";
