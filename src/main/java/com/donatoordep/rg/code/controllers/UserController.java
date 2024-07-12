@@ -1,6 +1,8 @@
 package com.donatoordep.rg.code.controllers;
 
+import com.donatoordep.rg.code.dtos.request.UserRequestAuthenticationDTO;
 import com.donatoordep.rg.code.dtos.request.UserRequestRegisterDTO;
+import com.donatoordep.rg.code.dtos.response.UserResponseAuthenticationDTO;
 import com.donatoordep.rg.code.dtos.response.UserResponseRegisterDTO;
 import com.donatoordep.rg.code.services.UserService;
 import jakarta.mail.MessagingException;
@@ -33,5 +35,10 @@ public class UserController {
 
         return ResponseEntity.created(ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}")
                 .buildAndExpand(response.getIdentifier()).toUri()).body(response);
+    }
+
+    @PostMapping(path = "/auth")
+    public ResponseEntity<UserResponseAuthenticationDTO> authentication(@RequestBody @Valid UserRequestAuthenticationDTO request){
+        return ResponseEntity.ok().body(service.authentication(request));
     }
 }

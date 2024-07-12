@@ -42,6 +42,7 @@ public class WebSecurityConfig {
 
         http.authorizeHttpRequests(authorization -> {
             authorization.requestMatchers(HttpMethod.POST, "/users").permitAll();
+            authorization.requestMatchers(HttpMethod.POST, "/users/auth").permitAll();
         });
 
         http.addFilterBefore(webAuthenticationFilter, UsernamePasswordAuthenticationFilter.class);

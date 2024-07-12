@@ -63,6 +63,6 @@ public class UserService {
     }
 
     private Authentication authenticate(String username, String password) {
-        return new UsernamePasswordAuthenticationToken(username, password);
+        return manager.authenticate(new UsernamePasswordAuthenticationToken(username, password));
     }
 }
