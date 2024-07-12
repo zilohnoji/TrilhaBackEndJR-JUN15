@@ -13,7 +13,6 @@ public class UserResponseRegisterDTO {
     private UserResponseRegisterDTO() {
     }
 
-
     public static class UserResponseRegisterDTOBuilder implements UserResponseRegisterDTOSpecificationBuilder {
 
         private UserResponseRegisterDTO dto;
@@ -55,15 +54,15 @@ public class UserResponseRegisterDTO {
         }
     }
 
-    public void setIdentifier(UUID identifier) {
+    private void setIdentifier(UUID identifier) {
         this.identifier = identifier;
     }
 
-    public void setName(String name) {
+    private void setName(String name) {
         this.name = name;
     }
 
-    public void setEmail(String email) {
+    private void setEmail(String email) {
         this.email = email;
     }
 

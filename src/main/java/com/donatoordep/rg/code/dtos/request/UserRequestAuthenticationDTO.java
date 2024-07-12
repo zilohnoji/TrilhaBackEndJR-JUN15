@@ -4,10 +4,7 @@ import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Size;
 
-public class UserRequestRegisterDTO {
-
-    @NotBlank(message = "Campo requerido")
-    private String name;
+public class UserRequestAuthenticationDTO {
 
     @NotBlank(message = "Campo Requerido")
     @Email(message = "Formato de email inválido")
@@ -17,11 +14,7 @@ public class UserRequestRegisterDTO {
     @Size(min = 8, message = "A senha deve conter no minímo 8 caracteres")
     private String password;
 
-    public UserRequestRegisterDTO() {
-    }
-
-    public String getName() {
-        return name;
+    public UserRequestAuthenticationDTO() {
     }
 
     public String getEmail() {

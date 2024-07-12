@@ -1,5 +1,7 @@
 package com.donatoordep.rg.code.controllers.handler;
 
+import com.donatoordep.rg.code.exceptions.ONBEntityNotFoundException;
+import com.donatoordep.rg.code.exceptions.base.ONBExceptionSpecification;
 import com.donatoordep.rg.code.exceptions.base.StandardError;
 import com.donatoordep.rg.code.exceptions.base.ValidationError;
 import jakarta.servlet.http.HttpServletRequest;
@@ -19,7 +21,12 @@ public class ControllerHandlerException {
         return ResponseEntity.status(HttpStatus.UNPROCESSABLE_ENTITY).body(error);
     }
 
-    private ResponseEntity<StandardError> createHandleException(Exception e, HttpStatus status, String path) {
-        return ResponseEntity.status(status).body(new StandardError(status.value(), e.getMessage(), path));
+    @ExceptionHandler(ONBEntityNotFoundException.class)
+    public ResponseEntity<StandardError> entityNotFound(ONBEntityNotFoundException exception, HttpServletRequest request) {
+        return this.createHandleException(exception, request.getRequestURI());
+    }
+
+    private ResponseEntity<StandardError> createHandleException(ONBExceptionSpecification e, String path) {
+        return ResponseEntity.status(HttpStatus.valueOf(e.getStatus())).body(new StandardError(e.getStatus(), e.getError(), path));
     }
 }
