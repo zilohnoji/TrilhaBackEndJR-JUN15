@@ -9,10 +9,7 @@ import jakarta.mail.MessagingException;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import java.io.UnsupportedEncodingException;
@@ -40,5 +37,11 @@ public class UserController {
     @PostMapping(path = "/auth")
     public ResponseEntity<UserResponseAuthenticationDTO> authentication(@RequestBody @Valid UserRequestAuthenticationDTO request){
         return ResponseEntity.ok().body(service.authentication(request));
+    }
+
+    @PostMapping(path = "/{token}")
+    public ResponseEntity<Void> activeAccount(@PathVariable String token){
+        service.activeAccount(token);
+        return ResponseEntity.ok().build();
     }
 }

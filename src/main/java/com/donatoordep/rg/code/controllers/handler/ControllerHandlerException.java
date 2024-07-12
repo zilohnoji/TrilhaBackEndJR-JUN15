@@ -1,5 +1,6 @@
 package com.donatoordep.rg.code.controllers.handler;
 
+import com.donatoordep.rg.code.exceptions.ONBEmailCodeConfirmationDoesNotExistsException;
 import com.donatoordep.rg.code.exceptions.ONBEntityNotFoundException;
 import com.donatoordep.rg.code.exceptions.base.ONBExceptionSpecification;
 import com.donatoordep.rg.code.exceptions.base.StandardError;
@@ -23,6 +24,11 @@ public class ControllerHandlerException {
 
     @ExceptionHandler(ONBEntityNotFoundException.class)
     public ResponseEntity<StandardError> entityNotFound(ONBEntityNotFoundException exception, HttpServletRequest request) {
+        return this.createHandleException(exception, request.getRequestURI());
+    }
+
+    @ExceptionHandler(ONBEmailCodeConfirmationDoesNotExistsException.class)
+    public ResponseEntity<StandardError> entityNotFound(ONBEmailCodeConfirmationDoesNotExistsException exception, HttpServletRequest request) {
         return this.createHandleException(exception, request.getRequestURI());
     }
 

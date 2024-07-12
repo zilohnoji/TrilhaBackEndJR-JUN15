@@ -8,6 +8,7 @@ import com.donatoordep.rg.code.dtos.response.UserResponseAuthenticationDTO;
 import com.donatoordep.rg.code.dtos.response.UserResponseRegisterDTO;
 import com.donatoordep.rg.code.entities.EmailCodeConfirmation;
 import com.donatoordep.rg.code.entities.User;
+import com.donatoordep.rg.code.exceptions.ONBEmailCodeConfirmationDoesNotExistsException;
 import com.donatoordep.rg.code.mappers.dto.response.UserResponseDTOMapper;
 import com.donatoordep.rg.code.mappers.entities.UserMapper;
 import com.donatoordep.rg.code.repositories.UserRepository;
@@ -43,6 +44,7 @@ public class UserService {
         this.jwtTokenUtil = jwtTokenUtil;
     }
 
+    // Projetar advice para verificar se o email já existe no banco de dados
     public UserResponseRegisterDTO register(UserRequestRegisterDTO request) throws MessagingException, UnsupportedEncodingException {
 
         User entity = UserMapper.toEntity(request);
@@ -55,11 +57,18 @@ public class UserService {
         return UserResponseDTOMapper.toResponse(userRepository.save(entity));
     }
 
+    // Projetar advice para verificar se a conta está ativa (caso contrário, lançar exception)
     public UserResponseAuthenticationDTO authentication(UserRequestAuthenticationDTO request) {
         Authentication authenticate = this.authenticate(request.getEmail(), request.getPassword());
         User entity = (User) authenticate.getPrincipal();
         String tokenJwt = jwtTokenUtil.generateToken(entity);
         return UserResponseAuthenticationDTO.ofAuthentication(entity.getEmail(), tokenJwt, JWT.decode(tokenJwt).getExpiresAt().toString());
+    }
+
+    // Projetar advice para verificar se o token já está expirado, se ele pertence ao usuário ou se ele é nulo
+    public void activeAccount(String token) {
+        User entity = userRepository.findByEmailCodeConfirmation(token).orElseThrow(ONBEmailCodeConfirmationDoesNotExistsException::new);
+        userRepository.save(entity.activeAccount());
     }
 
     private Authentication authenticate(String username, String password) {

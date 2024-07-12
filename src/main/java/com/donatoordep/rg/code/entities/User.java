@@ -135,10 +135,11 @@ public class User implements UserDetails {
         this.password = password;
     }
 
-    public void activeAccount() {
+    public User activeAccount() {
         if (!this.isEnabled()) {
             this.enabled = true;
         }
+        return this;
     }
 
     @Override
