@@ -1,9 +1,9 @@
-package com.donatoordep.rg.code.services.validations.user.aop.aspects;
+package com.donatoordep.rg.code.aop.jpaFieldValidator.aspects;
 
-import com.donatoordep.rg.code.exceptions.ONBEmailHasExistsInDatabaseException;
+import com.donatoordep.rg.code.aop.PointcutDefinition;
+import com.donatoordep.rg.code.aop.jpaFieldValidator.annotations.JpaFieldlValidator;
+import com.donatoordep.rg.code.aop.jpaFieldValidator.specifications.FieldValidatorSpecification;
 import com.donatoordep.rg.code.repositories.UserRepository;
-import com.donatoordep.rg.code.services.validations.user.aop.PointcutDefinition;
-import com.donatoordep.rg.code.services.validations.user.aop.annotations.JpaFieldlValidator;
 import org.aspectj.lang.JoinPoint;
 import org.aspectj.lang.annotation.Aspect;
 import org.aspectj.lang.annotation.Before;
@@ -23,6 +23,9 @@ public class JpaFieldValidationAspect extends PointcutDefinition {
     private final UserRepository userRepository;
 
     @Autowired
+    private List<FieldValidatorSpecification> validations;
+
+    @Autowired
     public JpaFieldValidationAspect(UserRepository userRepository) {
         this.userRepository = userRepository;
     }
@@ -33,20 +36,18 @@ public class JpaFieldValidationAspect extends PointcutDefinition {
         List<Field> fieldsAnnotates = this.annotateWith(JpaFieldlValidator.class, this.classFields(dto));
 
         fieldsAnnotates.forEach(field -> {
-            if (field.getName().equals("email")) {
-                if (field.getAnnotation(JpaFieldlValidator.class).unique()) {
-                    field.setAccessible(true);
-                    Object fieldValue;
-
+            JpaFieldlValidator annotation = field.getAnnotation(JpaFieldlValidator.class);
+            if (annotation.unique()) {
+                field.setAccessible(true);
+                validations.forEach(validator -> {
                     try {
-                        fieldValue = field.get(dto);
+                        if (validator.isValid(field.get(dto))) {
+                            throw validator.getException();
+                        }
                     } catch (IllegalAccessException e) {
                         throw new RuntimeException(e);
                     }
-                    if (fieldValue instanceof String && userRepository.existsByEmail((String) fieldValue)) {
-                        throw new ONBEmailHasExistsInDatabaseException();
-                    }
-                }
+                });
             }
         });
     }

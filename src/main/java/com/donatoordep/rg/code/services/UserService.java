@@ -9,14 +9,13 @@ import com.donatoordep.rg.code.dtos.response.UserResponseRegisterDTO;
 import com.donatoordep.rg.code.entities.EmailCodeConfirmation;
 import com.donatoordep.rg.code.entities.User;
 import com.donatoordep.rg.code.exceptions.ONBEmailCodeConfirmationDoesNotExistsException;
-import com.donatoordep.rg.code.mappers.dto.response.UserResponseDTOMapper;
 import com.donatoordep.rg.code.mappers.entities.UserMapper;
 import com.donatoordep.rg.code.repositories.EmailCodeConfirmationRepository;
 import com.donatoordep.rg.code.repositories.UserRepository;
-import com.donatoordep.rg.code.services.validations.user.chain.activeAccount.UserActiveAccountArgs;
-import com.donatoordep.rg.code.services.validations.user.chain.activeAccount.UserActiveAccountValidation;
-import com.donatoordep.rg.code.services.validations.user.chain.authentication.UserAuthenticationArgs;
-import com.donatoordep.rg.code.services.validations.user.chain.authentication.UserAuthenticationValidation;
+import com.donatoordep.rg.code.services.validations.user.activeAccount.UserActiveAccountArgs;
+import com.donatoordep.rg.code.services.validations.user.activeAccount.UserActiveAccountValidation;
+import com.donatoordep.rg.code.services.validations.user.authentication.UserAuthenticationArgs;
+import com.donatoordep.rg.code.services.validations.user.authentication.UserAuthenticationValidation;
 import jakarta.mail.MessagingException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -67,7 +66,7 @@ public class UserService {
 
         emailService.sendCodeForEmail(entity.getCode(), request.getEmail());
 
-        return UserResponseDTOMapper.toResponse(userRepository.save(entity));
+        return UserMapper.toResponse(userRepository.save(entity));
     }
 
     public UserResponseAuthenticationDTO authentication(UserRequestAuthenticationDTO request) {

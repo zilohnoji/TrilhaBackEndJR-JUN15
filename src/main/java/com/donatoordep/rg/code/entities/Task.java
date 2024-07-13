@@ -1,5 +1,6 @@
 package com.donatoordep.rg.code.entities;
 
+import com.donatoordep.rg.code.builders.entities.TaskSpecificationBuilder;
 import com.donatoordep.rg.code.enums.TaskStatus;
 import jakarta.persistence.*;
 
@@ -34,6 +35,47 @@ public class Task {
         this.status = status;
     }
 
+    public static class TaskBuilder implements TaskSpecificationBuilder {
+
+        private Task entity;
+
+        private TaskBuilder() {
+            this.reset();
+        }
+
+        public static TaskBuilder builder() {
+            return new TaskBuilder();
+        }
+
+        @Override
+        public Task build() {
+            return this.entity;
+        }
+
+        @Override
+        public TaskSpecificationBuilder title(String title) {
+            this.entity.setTitle(title);
+            return this;
+        }
+
+        @Override
+        public TaskSpecificationBuilder content(String content) {
+            this.entity.setContent(content);
+            return this;
+        }
+
+        @Override
+        public TaskSpecificationBuilder status(TaskStatus status) {
+            this.entity.setStatus(status);
+            return this;
+        }
+
+        @Override
+        public void reset() {
+            this.entity = new Task();
+        }
+    }
+
     public static Task ofCompleted(String title, String content) {
         return new Task(title, content, TaskStatus.COMPLETED);
     }
@@ -44,6 +86,22 @@ public class Task {
 
     public static Task ofQuit(String title, String content) {
         return new Task(title, content, TaskStatus.QUIT);
+    }
+
+    private void setStatus(TaskStatus status) {
+        this.status = status;
+    }
+
+    private void setTitle(String title) {
+        this.title = title;
+    }
+
+    private void setContent(String content) {
+        this.content = content;
+    }
+
+    private void setUser(User user) {
+        this.user = user;
     }
 
     public UUID getId() {
@@ -62,9 +120,6 @@ public class Task {
         return status;
     }
 
-    public void setStatus(TaskStatus status) {
-        this.status = status;
-    }
 
     @Override
     public boolean equals(Object object) {

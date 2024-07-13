@@ -1,6 +1,6 @@
 package com.donatoordep.rg.code.dtos.request;
 
-import com.donatoordep.rg.code.services.validations.user.aop.annotations.JpaFieldlValidator;
+import com.donatoordep.rg.code.aop.jpaFieldValidator.annotations.JpaFieldlValidator;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Size;

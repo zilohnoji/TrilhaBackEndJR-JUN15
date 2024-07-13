@@ -1,4 +1,4 @@
-package com.donatoordep.rg.code.services.validations.user.chain.activeAccount;
+package com.donatoordep.rg.code.services.validations.user.activeAccount;
 
 
 import com.donatoordep.rg.code.repositories.EmailCodeConfirmationRepository;

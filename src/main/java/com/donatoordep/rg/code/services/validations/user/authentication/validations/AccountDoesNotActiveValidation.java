@@ -1,10 +1,10 @@
-package com.donatoordep.rg.code.services.validations.user.chain.authentication.validations;
+package com.donatoordep.rg.code.services.validations.user.authentication.validations;
 
 import com.donatoordep.rg.code.entities.User;
 import com.donatoordep.rg.code.exceptions.ONBAccountDoesNotActiveException;
 import com.donatoordep.rg.code.exceptions.ONBEntityNotFoundException;
-import com.donatoordep.rg.code.services.validations.user.chain.authentication.UserAuthenticationArgs;
-import com.donatoordep.rg.code.services.validations.user.chain.authentication.UserAuthenticationValidation;
+import com.donatoordep.rg.code.services.validations.user.authentication.UserAuthenticationArgs;
+import com.donatoordep.rg.code.services.validations.user.authentication.UserAuthenticationValidation;
 import org.springframework.stereotype.Component;
 
 @Component

@@ -2,6 +2,7 @@ package com.donatoordep.rg.code.entities;
 
 import com.donatoordep.rg.code.builders.entities.UserSpecificationBuilder;
 import com.donatoordep.rg.code.enums.RoleName;
+import com.donatoordep.rg.code.exceptions.ONBEntityNotFoundException;
 import jakarta.persistence.*;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -23,13 +24,13 @@ public class User implements UserDetails {
     @OneToOne(cascade = CascadeType.ALL)
     private EmailCodeConfirmation code;
 
-    @ManyToMany(cascade = CascadeType.ALL)
+    @ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     @JoinTable(name = "tb_user_role", joinColumns = @JoinColumn(name = "user_id", referencedColumnName = "id"),
             inverseJoinColumns = @JoinColumn(name = "role_id", referencedColumnName = "id"))
     private final Set<Role> roles = new HashSet<>();
 
-    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
-    private final Set<Task> tasks = new HashSet<>();
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+    private final List<Task> tasks = new ArrayList<>();
 
     private User() {
     }
@@ -87,7 +88,15 @@ public class User implements UserDetails {
         }
     }
 
-    public Set<Task> getTasks() {
+    public Task findTaskById(UUID id) {
+        return tasks.stream().filter(task -> task.getId().equals(id)).findFirst().orElseThrow(ONBEntityNotFoundException::new);
+    }
+
+    public void deleteTaskById(UUID id) {
+        tasks.remove(this.findTaskById(id));
+    }
+
+    public List<Task> getTasks() {
         return tasks;
     }
 

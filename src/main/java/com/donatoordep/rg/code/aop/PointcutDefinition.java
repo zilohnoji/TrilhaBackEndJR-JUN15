@@ -1,4 +1,4 @@
-package com.donatoordep.rg.code.services.validations.user.aop;
+package com.donatoordep.rg.code.aop;
 
 import org.aspectj.lang.annotation.Pointcut;
 
