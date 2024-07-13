@@ -12,6 +12,8 @@ import com.donatoordep.rg.code.exceptions.ONBEmailCodeConfirmationDoesNotExistsE
 import com.donatoordep.rg.code.mappers.dto.response.UserResponseDTOMapper;
 import com.donatoordep.rg.code.mappers.entities.UserMapper;
 import com.donatoordep.rg.code.repositories.UserRepository;
+import com.donatoordep.rg.code.services.validations.user.chain.authentication.UserAuthenticationArgs;
+import com.donatoordep.rg.code.services.validations.user.chain.authentication.UserAuthenticationValidation;
 import jakarta.mail.MessagingException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -23,6 +25,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.io.UnsupportedEncodingException;
 import java.time.LocalDateTime;
+import java.util.List;
 
 @Service
 @Transactional
@@ -35,6 +38,9 @@ public class UserService {
     private final JWTTokenUtil jwtTokenUtil;
 
     @Autowired
+    private List<UserAuthenticationValidation> authenticationValidations;
+
+    @Autowired
     public UserService(UserRepository userRepository, PasswordEncoder passwordEncoder, EmailService emailService,
                        AuthenticationManager manager, JWTTokenUtil jwtTokenUtil) {
         this.userRepository = userRepository;
@@ -44,7 +50,6 @@ public class UserService {
         this.jwtTokenUtil = jwtTokenUtil;
     }
 
-    // Projetar advice para verificar se o email já existe no banco de dados
     public UserResponseRegisterDTO register(UserRequestRegisterDTO request) throws MessagingException, UnsupportedEncodingException {
 
         User entity = UserMapper.toEntity(request);
@@ -57,8 +62,12 @@ public class UserService {
         return UserResponseDTOMapper.toResponse(userRepository.save(entity));
     }
 
-    // Projetar advice para verificar se a conta está ativa (caso contrário, lançar exception)
     public UserResponseAuthenticationDTO authentication(UserRequestAuthenticationDTO request) {
+
+        authenticationValidations.forEach(validation -> {
+            validation.validate(new UserAuthenticationArgs(request, userRepository));
+        });
+
         Authentication authenticate = this.authenticate(request.getEmail(), request.getPassword());
         User entity = (User) authenticate.getPrincipal();
         String tokenJwt = jwtTokenUtil.generateToken(entity);

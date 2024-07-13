@@ -11,10 +11,6 @@ public class ONBEmailHasExistsInDatabaseException extends RuntimeException imple
         super(ERROR);
     }
 
-    public ONBEmailHasExistsInDatabaseException(String error) {
-        super(error);
-    }
-
     public String getError() {
         return ERROR;
     }

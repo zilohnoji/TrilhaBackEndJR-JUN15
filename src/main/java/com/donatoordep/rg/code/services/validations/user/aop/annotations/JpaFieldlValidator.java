@@ -1,4 +1,4 @@
-package com.donatoordep.rg.code.services.validations.user.annotations;
+package com.donatoordep.rg.code.services.validations.user.aop.annotations;
 
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;

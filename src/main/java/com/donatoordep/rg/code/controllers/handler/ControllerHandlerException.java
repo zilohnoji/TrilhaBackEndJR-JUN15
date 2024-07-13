@@ -1,5 +1,6 @@
 package com.donatoordep.rg.code.controllers.handler;
 
+import com.donatoordep.rg.code.exceptions.ONBAccountDoesNotActiveException;
 import com.donatoordep.rg.code.exceptions.ONBEmailCodeConfirmationDoesNotExistsException;
 import com.donatoordep.rg.code.exceptions.ONBEmailHasExistsInDatabaseException;
 import com.donatoordep.rg.code.exceptions.ONBEntityNotFoundException;
@@ -35,6 +36,11 @@ public class ControllerHandlerException {
 
     @ExceptionHandler(ONBEmailHasExistsInDatabaseException.class)
     public ResponseEntity<StandardError> emailHasExistsInDatabase(ONBEmailHasExistsInDatabaseException exception, HttpServletRequest request) {
+        return this.createHandleException(exception, request.getRequestURI());
+    }
+
+    @ExceptionHandler(ONBAccountDoesNotActiveException.class)
+    public ResponseEntity<StandardError> accountDoesNotActive(ONBAccountDoesNotActiveException exception, HttpServletRequest request) {
         return this.createHandleException(exception, request.getRequestURI());
     }
 

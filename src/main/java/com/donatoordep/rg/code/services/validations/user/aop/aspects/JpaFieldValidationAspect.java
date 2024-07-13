@@ -1,9 +1,9 @@
-package com.donatoordep.rg.code.services.validations.user.aspects;
+package com.donatoordep.rg.code.services.validations.user.aop.aspects;
 
 import com.donatoordep.rg.code.exceptions.ONBEmailHasExistsInDatabaseException;
 import com.donatoordep.rg.code.repositories.UserRepository;
-import com.donatoordep.rg.code.services.validations.user.PointcutDefinition;
-import com.donatoordep.rg.code.services.validations.user.annotations.JpaFieldlValidator;
+import com.donatoordep.rg.code.services.validations.user.aop.PointcutDefinition;
+import com.donatoordep.rg.code.services.validations.user.aop.annotations.JpaFieldlValidator;
 import org.aspectj.lang.JoinPoint;
 import org.aspectj.lang.annotation.Aspect;
 import org.aspectj.lang.annotation.Before;
