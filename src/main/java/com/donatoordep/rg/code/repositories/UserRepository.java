@@ -18,4 +18,7 @@ public interface UserRepository extends JpaRepository<User, UUID> {
 
     @Query("SELECT u FROM User u WHERE UPPER(u.code.code) LIKE UPPER(CONCAT('%', :code, '%'))")
     Optional<User> findByEmailCodeConfirmation(String code);
+
+    @Query("SELECT COUNT(u) > 0 FROM User u WHERE u.email = :email")
+    boolean existsByEmail(String email);
 }

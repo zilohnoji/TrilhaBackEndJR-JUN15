@@ -1,5 +1,6 @@
 package com.donatoordep.rg.code.dtos.request;
 
+import com.donatoordep.rg.code.services.validations.user.annotations.JpaFieldlValidator;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Size;
@@ -11,6 +12,7 @@ public class UserRequestRegisterDTO {
 
     @NotBlank(message = "Campo Requerido")
     @Email(message = "Formato de email inválido")
+    @JpaFieldlValidator(unique = true)
     private String email;
 
     @NotBlank(message = "Campo requerido")
