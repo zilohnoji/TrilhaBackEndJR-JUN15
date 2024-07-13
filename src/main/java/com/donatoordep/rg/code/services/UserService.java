@@ -11,7 +11,10 @@ import com.donatoordep.rg.code.entities.User;
 import com.donatoordep.rg.code.exceptions.ONBEmailCodeConfirmationDoesNotExistsException;
 import com.donatoordep.rg.code.mappers.dto.response.UserResponseDTOMapper;
 import com.donatoordep.rg.code.mappers.entities.UserMapper;
+import com.donatoordep.rg.code.repositories.EmailCodeConfirmationRepository;
 import com.donatoordep.rg.code.repositories.UserRepository;
+import com.donatoordep.rg.code.services.validations.user.chain.activeAccount.UserActiveAccountArgs;
+import com.donatoordep.rg.code.services.validations.user.chain.activeAccount.UserActiveAccountValidation;
 import com.donatoordep.rg.code.services.validations.user.chain.authentication.UserAuthenticationArgs;
 import com.donatoordep.rg.code.services.validations.user.chain.authentication.UserAuthenticationValidation;
 import jakarta.mail.MessagingException;
@@ -36,18 +39,23 @@ public class UserService {
     private final EmailService emailService;
     private final AuthenticationManager manager;
     private final JWTTokenUtil jwtTokenUtil;
+    private final EmailCodeConfirmationRepository emailCodeConfirmationRepository;
 
     @Autowired
     private List<UserAuthenticationValidation> authenticationValidations;
 
     @Autowired
+    private List<UserActiveAccountValidation> activeAcountValidations;
+
+    @Autowired
     public UserService(UserRepository userRepository, PasswordEncoder passwordEncoder, EmailService emailService,
-                       AuthenticationManager manager, JWTTokenUtil jwtTokenUtil) {
+                       AuthenticationManager manager, JWTTokenUtil jwtTokenUtil, EmailCodeConfirmationRepository emailCodeConfirmationRepository) {
         this.userRepository = userRepository;
         this.passwordEncoder = passwordEncoder;
         this.emailService = emailService;
         this.manager = manager;
         this.jwtTokenUtil = jwtTokenUtil;
+        this.emailCodeConfirmationRepository = emailCodeConfirmationRepository;
     }
 
     public UserResponseRegisterDTO register(UserRequestRegisterDTO request) throws MessagingException, UnsupportedEncodingException {
@@ -74,8 +82,12 @@ public class UserService {
         return UserResponseAuthenticationDTO.ofAuthentication(entity.getEmail(), tokenJwt, JWT.decode(tokenJwt).getExpiresAt().toString());
     }
 
-    // Projetar advice para verificar se o token já está expirado, se ele pertence ao usuário ou se ele é nulo
     public void activeAccount(String token) {
+
+        activeAcountValidations.forEach(validation -> {
+            validation.validate(new UserActiveAccountArgs(token, emailCodeConfirmationRepository));
+        });
+
         User entity = userRepository.findByEmailCodeConfirmation(token).orElseThrow(ONBEmailCodeConfirmationDoesNotExistsException::new);
         userRepository.save(entity.activeAccount());
     }
