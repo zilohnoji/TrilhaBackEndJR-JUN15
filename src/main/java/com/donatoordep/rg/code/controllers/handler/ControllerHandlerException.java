@@ -1,9 +1,6 @@
 package com.donatoordep.rg.code.controllers.handler;
 
-import com.donatoordep.rg.code.exceptions.ONBAccountDoesNotActiveException;
-import com.donatoordep.rg.code.exceptions.ONBEmailCodeConfirmationDoesNotExistsException;
-import com.donatoordep.rg.code.exceptions.ONBEmailHasExistsInDatabaseException;
-import com.donatoordep.rg.code.exceptions.ONBEntityNotFoundException;
+import com.donatoordep.rg.code.exceptions.*;
 import com.donatoordep.rg.code.exceptions.base.ONBExceptionSpecification;
 import com.donatoordep.rg.code.exceptions.base.StandardError;
 import com.donatoordep.rg.code.exceptions.base.ValidationError;
@@ -41,6 +38,11 @@ public class ControllerHandlerException {
 
     @ExceptionHandler(ONBAccountDoesNotActiveException.class)
     public ResponseEntity<StandardError> accountDoesNotActive(ONBAccountDoesNotActiveException exception, HttpServletRequest request) {
+        return this.createHandleException(exception, request.getRequestURI());
+    }
+
+    @ExceptionHandler(ONBEmailCodeConfirmationExpiredException.class)
+    public ResponseEntity<StandardError> emailCodeConfirmationExpired(ONBEmailCodeConfirmationExpiredException exception, HttpServletRequest request) {
         return this.createHandleException(exception, request.getRequestURI());
     }
 
