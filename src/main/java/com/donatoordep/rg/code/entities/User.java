@@ -29,7 +29,7 @@ public class User implements UserDetails {
             inverseJoinColumns = @JoinColumn(name = "role_id", referencedColumnName = "id"))
     private final Set<Role> roles = new HashSet<>();
 
-    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, fetch = FetchType.EAGER, orphanRemoval = true)
     private final List<Task> tasks = new ArrayList<>();
 
     private User() {
@@ -109,6 +109,7 @@ public class User implements UserDetails {
     }
 
     public void addTask(Task task) {
+        task.setUser(this);
         this.tasks.add(task);
     }
 

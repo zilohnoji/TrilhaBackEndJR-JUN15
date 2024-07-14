@@ -23,7 +23,6 @@ public class Task {
     private TaskStatus status;
 
     @ManyToOne
-    @JoinColumn(name = "user_id")
     private User user;
 
     private Task() {
@@ -100,12 +99,16 @@ public class Task {
         this.content = content;
     }
 
-    private void setUser(User user) {
-        this.user = user;
-    }
-
     public UUID getId() {
         return id;
+    }
+
+    public void setId(UUID id) {
+        this.id = id;
+    }
+
+    public void setUser(User user) {
+        this.user = user;
     }
 
     public String getTitle() {
@@ -119,7 +122,6 @@ public class Task {
     public TaskStatus getStatus() {
         return status;
     }
-
 
     @Override
     public boolean equals(Object object) {

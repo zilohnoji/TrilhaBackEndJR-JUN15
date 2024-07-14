@@ -44,7 +44,9 @@ public class WebSecurityConfig {
             authorization.requestMatchers(HttpMethod.POST, "/users").permitAll();
             authorization.requestMatchers(HttpMethod.POST, "/users/auth").permitAll();
             authorization.requestMatchers(HttpMethod.POST, "/users/{token}").permitAll();
+
             authorization.requestMatchers(HttpMethod.POST, "/tasks").authenticated();
+            authorization.requestMatchers(HttpMethod.DELETE, "/tasks/{id}").authenticated();
         });
 
         http.addFilterBefore(webAuthenticationFilter, UsernamePasswordAuthenticationFilter.class);
