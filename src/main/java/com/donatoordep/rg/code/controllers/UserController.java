@@ -3,12 +3,15 @@ package com.donatoordep.rg.code.controllers;
 import com.donatoordep.rg.code.dtos.request.UserRequestAuthenticationDTO;
 import com.donatoordep.rg.code.dtos.request.UserRequestRegisterDTO;
 import com.donatoordep.rg.code.dtos.response.UserResponseAuthenticationDTO;
+import com.donatoordep.rg.code.dtos.response.UserResponseGetProfileInfoDTO;
 import com.donatoordep.rg.code.dtos.response.UserResponseRegisterDTO;
+import com.donatoordep.rg.code.entities.User;
 import com.donatoordep.rg.code.services.UserService;
 import jakarta.mail.MessagingException;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
@@ -35,13 +38,18 @@ public class UserController {
     }
 
     @PostMapping(path = "/auth")
-    public ResponseEntity<UserResponseAuthenticationDTO> authentication(@RequestBody @Valid UserRequestAuthenticationDTO request){
+    public ResponseEntity<UserResponseAuthenticationDTO> authentication(@RequestBody @Valid UserRequestAuthenticationDTO request) {
         return ResponseEntity.ok().body(service.authentication(request));
     }
 
     @PostMapping(path = "/{token}")
-    public ResponseEntity<Void> activeAccount(@PathVariable String token){
+    public ResponseEntity<Void> activeAccount(@PathVariable String token) {
         service.activeAccount(token);
         return ResponseEntity.ok().build();
+    }
+
+    @GetMapping(path = "/me")
+    public ResponseEntity<UserResponseGetProfileInfoDTO> getMe(@AuthenticationPrincipal User user) {
+        return ResponseEntity.ok().body(service.getUserProfile(user));
     }
 }

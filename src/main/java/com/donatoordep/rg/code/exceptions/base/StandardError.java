@@ -20,6 +20,10 @@ public class StandardError {
         return status;
     }
 
+    public Instant getTimestamp() {
+        return timestamp;
+    }
+
     public void setStatus(Integer status) {
         this.status = status;
     }

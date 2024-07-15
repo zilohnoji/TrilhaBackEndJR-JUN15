@@ -5,6 +5,7 @@ import com.donatoordep.rg.code.configurations.security.JWTTokenUtil;
 import com.donatoordep.rg.code.dtos.request.UserRequestAuthenticationDTO;
 import com.donatoordep.rg.code.dtos.request.UserRequestRegisterDTO;
 import com.donatoordep.rg.code.dtos.response.UserResponseAuthenticationDTO;
+import com.donatoordep.rg.code.dtos.response.UserResponseGetProfileInfoDTO;
 import com.donatoordep.rg.code.dtos.response.UserResponseRegisterDTO;
 import com.donatoordep.rg.code.entities.EmailCodeConfirmation;
 import com.donatoordep.rg.code.entities.User;
@@ -89,6 +90,10 @@ public class UserService {
 
         User entity = userRepository.findByEmailCodeConfirmation(token).orElseThrow(ONBEmailCodeConfirmationDoesNotExistsException::new);
         userRepository.save(entity.activeAccount());
+    }
+
+    public UserResponseGetProfileInfoDTO getUserProfile(User user) {
+        return new UserResponseGetProfileInfoDTO(userRepository.findById(user.getId()).get());
     }
 
     private Authentication authenticate(String username, String password) {

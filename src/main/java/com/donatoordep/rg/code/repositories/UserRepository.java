@@ -1,8 +1,6 @@
 package com.donatoordep.rg.code.repositories;
 
-import com.donatoordep.rg.code.entities.Task;
 import com.donatoordep.rg.code.entities.User;
-import org.springframework.data.domain.Page;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -23,7 +21,4 @@ public interface UserRepository extends JpaRepository<User, UUID> {
 
     @Query("SELECT COUNT(u) > 0 FROM User u WHERE u.email = :email")
     boolean existsByEmail(String email);
-
-    @Query("SELECT t FROM User u FETCH JOIN u.tasks t WHERE UPPER(u.email) LIKE UPPER(CONCAT('%', :username,'%'))")
-    Page<Task> getTasks(String username);
 }

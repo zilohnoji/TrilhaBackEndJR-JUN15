@@ -6,8 +6,9 @@ import com.donatoordep.rg.code.dtos.response.TaskResponseRegisterDTO;
 import com.donatoordep.rg.code.entities.User;
 import com.donatoordep.rg.code.services.TaskService;
 import jakarta.validation.Valid;
-import org.hibernate.query.Page;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
@@ -38,5 +39,10 @@ public class TaskController {
     public ResponseEntity<Void> deleteById(@AuthenticationPrincipal User user, @PathVariable UUID id) {
         service.deleteById(user, id);
         return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
+    }
+
+    @GetMapping
+    public ResponseEntity<Page<TaskResponseGetAllDTO>> getTasksByUser(@AuthenticationPrincipal User user, Pageable pageable){
+        return ResponseEntity.ok().body(service.getTasksByUser(user, pageable));
     }
 }
