@@ -2,6 +2,15 @@ spring:
   application:
     name: rg-code
 
+  messages:
+    basename: i18n/messages
+    encoding: UTF-8
+    cache-during: 3600
+
+  mvc:
+    locale: pt-BR
+    locale-resolver: accept-header
+
   mail:
     host: smtp.gmail.com
     port: 587

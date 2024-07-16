@@ -7,16 +7,16 @@ import jakarta.validation.constraints.Size;
 
 public class UserRequestRegisterDTO {
 
-    @NotBlank(message = "Campo requerido")
+    @NotBlank(message = "{UserRequestRegisterDTO.NotBlank}")
     private String name;
 
-    @NotBlank(message = "Campo Requerido")
-    @Email(message = "Formato de email inválido")
+    @NotBlank(message = "{UserRequestRegisterDTO.NotBlank}")
+    @Email(message = "{UserRequestRegisterDTO.Email}")
     @JpaFieldlValidator(unique = true)
     private String email;
 
-    @NotBlank(message = "Campo requerido")
-    @Size(min = 8, message = "A senha deve conter no minímo 8 caracteres")
+    @NotBlank(message = "{UserRequestRegisterDTO.NotBlank}")
+    @Size(min = 8, message = "{UserRequestRegisterDTO.Size}")
     private String password;
 
     public UserRequestRegisterDTO() {

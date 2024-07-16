@@ -4,13 +4,13 @@ import jakarta.validation.constraints.NotBlank;
 
 public class TaskRequestRegisterDTO {
 
-    @NotBlank(message = "Campo requerido")
+    @NotBlank(message = "{TaskRequestRegisterDTO.NotBlank}")
     private String title;
 
-    @NotBlank(message = "Campo requerido")
+    @NotBlank(message = "{TaskRequestRegisterDTO.NotBlank}")
     private String content;
 
-    @NotBlank(message = "Campo requerido")
+    @NotBlank(message = "{TaskRequestRegisterDTO.NotBlank}")
     private String status;
 
     public TaskRequestRegisterDTO() {

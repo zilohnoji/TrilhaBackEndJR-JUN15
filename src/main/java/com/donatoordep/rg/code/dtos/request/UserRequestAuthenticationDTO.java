@@ -6,12 +6,12 @@ import jakarta.validation.constraints.Size;
 
 public class UserRequestAuthenticationDTO {
 
-    @NotBlank(message = "Campo Requerido")
-    @Email(message = "Formato de email inválido")
+    @NotBlank(message = "{UserRequestAuthenticationDTO.NotBlank}")
+    @Email(message = "{UserRequest.Email}")
     private String email;
 
-    @NotBlank(message = "Campo requerido")
-    @Size(min = 8, message = "A senha deve conter no minímo 8 caracteres")
+    @NotBlank(message = "{UserRequestAuthenticationDTO.NotBlank}")
+    @Size(min = 8, message = "{UserRequestAuthenticationDTO.Size}")
     private String password;
 
     public UserRequestAuthenticationDTO() {
