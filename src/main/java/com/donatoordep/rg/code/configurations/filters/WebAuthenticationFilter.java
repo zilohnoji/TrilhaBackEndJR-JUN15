@@ -4,7 +4,8 @@ import com.auth0.jwt.JWT;
 import com.auth0.jwt.interfaces.DecodedJWT;
 import com.donatoordep.rg.code.configurations.filters.jwt.exceptions.JWTTokenExpiredException;
 import com.donatoordep.rg.code.configurations.security.JWTTokenUtil;
-import com.donatoordep.rg.code.repositories.UserRepository;
+import com.donatoordep.rg.code.repositories.UserSpecification;
+import com.donatoordep.rg.code.repositories.impl.UserRepository;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import jakarta.servlet.FilterChain;
@@ -29,7 +30,7 @@ import java.util.Date;
 public class WebAuthenticationFilter extends OncePerRequestFilter {
 
     private final ObjectMapper mapper;
-    private final UserRepository repository;
+    private final UserSpecification repository;
     private final JWTTokenUtil tokenUtil;
 
     @Autowired

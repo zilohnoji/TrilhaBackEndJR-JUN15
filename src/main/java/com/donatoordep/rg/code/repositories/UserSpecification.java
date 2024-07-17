@@ -8,10 +8,7 @@ import org.springframework.security.core.userdetails.UserDetails;
 import java.util.Optional;
 import java.util.UUID;
 
-public interface UserRepository extends JpaRepository<User, UUID> {
-
-    @Query("SELECT u FROM User u WHERE UPPER(u.email) LIKE UPPER(CONCAT('%', :username, '%'))")
-    UserDetails findByEmailForLoadUserDetails(String username);
+public interface UserSpecification extends JpaRepository<User, UUID> {
 
     @Query("SELECT u FROM User u WHERE UPPER(u.email) LIKE UPPER(CONCAT('%', :email, '%'))")
     Optional<User> findByEmail(String email);
@@ -21,4 +18,7 @@ public interface UserRepository extends JpaRepository<User, UUID> {
 
     @Query("SELECT COUNT(u) > 0 FROM User u WHERE u.email = :email")
     boolean existsByEmail(String email);
+
+    @Query("SELECT u FROM User u WHERE UPPER(u.email) LIKE UPPER(CONCAT('%', :username, '%'))")
+    UserDetails findByEmailForLoadUserDetails(String username);
 }

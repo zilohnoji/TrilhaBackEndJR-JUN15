@@ -3,7 +3,8 @@ package com.donatoordep.rg.code.aop.jpaFieldValidator.aspects;
 import com.donatoordep.rg.code.aop.PointcutDefinition;
 import com.donatoordep.rg.code.aop.jpaFieldValidator.annotations.JpaFieldlValidator;
 import com.donatoordep.rg.code.aop.jpaFieldValidator.specifications.FieldValidatorSpecification;
-import com.donatoordep.rg.code.repositories.UserRepository;
+import com.donatoordep.rg.code.repositories.UserSpecification;
+import com.donatoordep.rg.code.repositories.impl.UserRepository;
 import org.aspectj.lang.JoinPoint;
 import org.aspectj.lang.annotation.Aspect;
 import org.aspectj.lang.annotation.Before;
@@ -20,7 +21,7 @@ import java.util.List;
 @Component
 public class JpaFieldValidationAspect extends PointcutDefinition {
 
-    private final UserRepository userRepository;
+    private final UserSpecification userRepository;
 
     @Autowired
     private List<FieldValidatorSpecification> validations;

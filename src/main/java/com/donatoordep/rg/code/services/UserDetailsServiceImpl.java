@@ -1,6 +1,6 @@
 package com.donatoordep.rg.code.services;
 
-import com.donatoordep.rg.code.repositories.UserRepository;
+import com.donatoordep.rg.code.repositories.impl.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;

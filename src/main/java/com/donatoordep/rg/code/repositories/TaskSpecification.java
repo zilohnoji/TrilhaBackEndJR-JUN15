@@ -9,7 +9,7 @@ import org.springframework.data.jpa.repository.Query;
 import java.util.List;
 import java.util.UUID;
 
-public interface TaskRepository extends JpaRepository<Task, UUID> {
+public interface TaskSpecification extends JpaRepository<Task, UUID> {
 
     @Query("SELECT t FROM Task t WHERE t.user.id = :id")
     Page<Task> getTasksByUserId(UUID id, Pageable pageable);

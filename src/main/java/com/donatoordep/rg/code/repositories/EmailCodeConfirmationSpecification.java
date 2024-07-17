@@ -7,7 +7,7 @@ import org.springframework.data.jpa.repository.Query;
 import java.util.Optional;
 import java.util.UUID;
 
-public interface EmailCodeConfirmationRepository extends JpaRepository<EmailCodeConfirmation, UUID> {
+public interface EmailCodeConfirmationSpecification extends JpaRepository<EmailCodeConfirmation, UUID> {
 
     @Query("SELECT u FROM EmailCodeConfirmation u WHERE u.code = :token")
     Optional<EmailCodeConfirmation> findByToken(String token);

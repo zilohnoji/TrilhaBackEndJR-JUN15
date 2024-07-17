@@ -2,7 +2,6 @@ package com.donatoordep.rg.code.services.validations.user.authentication.validat
 
 import com.donatoordep.rg.code.entities.User;
 import com.donatoordep.rg.code.exceptions.ONBAccountDoesNotActiveException;
-import com.donatoordep.rg.code.exceptions.ONBEntityNotFoundException;
 import com.donatoordep.rg.code.services.validations.user.authentication.UserAuthenticationArgs;
 import com.donatoordep.rg.code.services.validations.user.authentication.UserAuthenticationValidation;
 import org.springframework.stereotype.Component;
@@ -12,7 +11,7 @@ public class AccountDoesNotActiveValidation implements UserAuthenticationValidat
 
     @Override
     public void validate(UserAuthenticationArgs args) {
-        User entity = args.repository().findByEmail(args.dto().getEmail()).orElseThrow(ONBEntityNotFoundException::new);
+        User entity = args.repository().findByEmailOrThrowNotFound(args.dto().getEmail());
         if (!entity.isEnabled()){
             throw new ONBAccountDoesNotActiveException();
         }

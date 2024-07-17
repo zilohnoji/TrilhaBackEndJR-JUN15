@@ -2,7 +2,7 @@ package com.donatoordep.rg.code.aop.jpaFieldValidator.impl;
 
 import com.donatoordep.rg.code.aop.jpaFieldValidator.specifications.FieldValidatorSpecification;
 import com.donatoordep.rg.code.exceptions.ONBEmailHasExistsInDatabaseException;
-import com.donatoordep.rg.code.repositories.UserRepository;
+import com.donatoordep.rg.code.repositories.impl.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
