@@ -9,8 +9,8 @@ public class UserMapper {
 
     public static User toEntity(UserRequestRegisterDTO request) {
         return User.UserBuilder.builder()
-                .name(request.getName())
-                .email(request.getEmail())
+                .name(request.name())
+                .email(request.email())
                 .role(RoleName.ROLE_USER)
                 .build();
     }

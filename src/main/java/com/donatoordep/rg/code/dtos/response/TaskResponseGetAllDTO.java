@@ -15,7 +15,7 @@ public class TaskResponseGetAllDTO {
         this.identifier = entity.getId();
         this.title = entity.getTitle();
         this.content = entity.getContent();
-        this.status = entity.getContent();
+        this.status = entity.getStatus().toString();
     }
 
     public UUID getIdentifier() {

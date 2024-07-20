@@ -11,7 +11,7 @@ public class AccountDoesNotActiveValidation implements UserAuthenticationValidat
 
     @Override
     public void validate(UserAuthenticationArgs args) {
-        User entity = args.repository().findByEmailOrThrowNotFound(args.dto().getEmail());
+        User entity = args.repository().findByEmailOrThrowNotFound(args.dto().email());
         if (!entity.isEnabled()){
             throw new ONBAccountDoesNotActiveException();
         }

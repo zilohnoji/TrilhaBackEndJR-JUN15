@@ -4,6 +4,8 @@ import com.donatoordep.rg.code.builders.Builder;
 import com.donatoordep.rg.code.entities.Task;
 import com.donatoordep.rg.code.enums.TaskStatus;
 
+import java.util.UUID;
+
 public interface TaskSpecificationBuilder extends Builder<Task> {
 
     TaskSpecificationBuilder title(String title);
@@ -11,4 +13,6 @@ public interface TaskSpecificationBuilder extends Builder<Task> {
     TaskSpecificationBuilder content(String content);
 
     TaskSpecificationBuilder status(TaskStatus status);
+
+    TaskSpecificationBuilder id(UUID id);
 }

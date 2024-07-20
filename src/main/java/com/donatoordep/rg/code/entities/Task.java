@@ -70,6 +70,12 @@ public class Task {
         }
 
         @Override
+        public TaskSpecificationBuilder id(UUID id) {
+            this.entity.setId(id);
+            return this;
+        }
+
+        @Override
         public void reset() {
             this.entity = new Task();
         }
@@ -87,15 +93,15 @@ public class Task {
         return new Task(title, content, TaskStatus.QUIT);
     }
 
-    private void setStatus(TaskStatus status) {
+    public void setStatus(TaskStatus status) {
         this.status = status;
     }
 
-    private void setTitle(String title) {
+    public void setTitle(String title) {
         this.title = title;
     }
 
-    private void setContent(String content) {
+    public void setContent(String content) {
         this.content = content;
     }
 

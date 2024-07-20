@@ -7,6 +7,8 @@ import com.donatoordep.rg.code.dtos.request.UserRequestRegisterDTO;
 import com.donatoordep.rg.code.dtos.response.UserResponseAuthenticationDTO;
 import com.donatoordep.rg.code.dtos.response.UserResponseGetProfileInfoDTO;
 import com.donatoordep.rg.code.dtos.response.UserResponseRegisterDTO;
+import com.donatoordep.rg.code.entities.EmailCodeConfirmation;
+import com.donatoordep.rg.code.entities.User;
 import com.donatoordep.rg.code.mappers.entities.UserMapper;
 import com.donatoordep.rg.code.repositories.impl.EmailCodeConfirmationRepository;
 import com.donatoordep.rg.code.repositories.impl.UserRepository;
@@ -57,12 +59,12 @@ public class UserService {
 
     public UserResponseRegisterDTO register(UserRequestRegisterDTO request) throws MessagingException, UnsupportedEncodingException {
 
-        com.donatoordep.rg.code.entities.User entity = UserMapper.toEntity(request);
+        User entity = UserMapper.toEntity(request);
 
-        entity.setCode(com.donatoordep.rg.code.entities.EmailCodeConfirmation.createCodeConfirmation(LocalDateTime.now().plusMinutes(30), 32));
-        entity.setPassword(passwordEncoder.encode(request.getPassword()));
+        entity.setCode(EmailCodeConfirmation.createCodeConfirmation(LocalDateTime.now().plusMinutes(30), 32));
+        entity.setPassword(passwordEncoder.encode(request.password()));
 
-        emailService.sendCodeForEmail(entity.getCode(), request.getEmail());
+        emailService.sendCodeForEmail(entity.getCode(), request.email());
 
         return UserMapper.toResponse(userRepository.save(entity));
     }
@@ -72,8 +74,8 @@ public class UserService {
             validation.validate(new UserAuthenticationArgs(request, userRepository));
         });
 
-        Authentication authenticate = this.authenticate(request.getEmail(), request.getPassword());
-        com.donatoordep.rg.code.entities.User entity = (com.donatoordep.rg.code.entities.User) authenticate.getPrincipal();
+        Authentication authenticate = this.authenticate(request.email(), request.password());
+        User entity = (User) authenticate.getPrincipal();
         String tokenJwt = jwtTokenUtil.generateToken(entity);
 
         return UserResponseAuthenticationDTO.ofAuthentication(entity.getEmail(), tokenJwt, JWT.decode(tokenJwt).getExpiresAt().toString());
@@ -84,11 +86,11 @@ public class UserService {
             validation.validate(new UserActiveAccountArgs(token, emailCodeConfirmationRepository));
         });
 
-        com.donatoordep.rg.code.entities.User entity = userRepository.findByEmailCodeConfirmationOrThrowNotFound(token);
+        User entity = userRepository.findByEmailCodeConfirmationOrThrowNotFound(token);
         userRepository.save(entity.activeAccount());
     }
 
-    public UserResponseGetProfileInfoDTO getUserProfile(com.donatoordep.rg.code.entities.User user) {
+    public UserResponseGetProfileInfoDTO getUserProfile(User user) {
         return new UserResponseGetProfileInfoDTO(userRepository.findByIdOrThrowNotFound(user.getId()));
     }
 

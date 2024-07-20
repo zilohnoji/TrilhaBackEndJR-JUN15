@@ -49,6 +49,7 @@ public class WebSecurityConfig {
             authorization.requestMatchers(HttpMethod.POST, "/tasks").authenticated();
             authorization.requestMatchers(HttpMethod.DELETE, "/tasks/{id}").authenticated();
             authorization.requestMatchers(HttpMethod.GET, "/tasks").authenticated();
+            authorization.requestMatchers(HttpMethod.POST, "/tasks/update").authenticated();
         });
 
         http.addFilterBefore(webAuthenticationFilter, UsernamePasswordAuthenticationFilter.class);

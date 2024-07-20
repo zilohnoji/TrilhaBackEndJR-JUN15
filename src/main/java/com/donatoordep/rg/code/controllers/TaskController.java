@@ -1,8 +1,10 @@
 package com.donatoordep.rg.code.controllers;
 
 import com.donatoordep.rg.code.dtos.request.TaskRequestRegisterDTO;
+import com.donatoordep.rg.code.dtos.request.TaskRequestUpdateDTO;
 import com.donatoordep.rg.code.dtos.response.TaskResponseGetAllDTO;
 import com.donatoordep.rg.code.dtos.response.TaskResponseRegisterDTO;
+import com.donatoordep.rg.code.dtos.response.TaskResponseUpdateDTO;
 import com.donatoordep.rg.code.entities.User;
 import com.donatoordep.rg.code.services.TaskService;
 import jakarta.validation.Valid;
@@ -42,7 +44,12 @@ public class TaskController {
     }
 
     @GetMapping
-    public ResponseEntity<Page<TaskResponseGetAllDTO>> getTasksByUser(@AuthenticationPrincipal User user, Pageable pageable){
+    public ResponseEntity<Page<TaskResponseGetAllDTO>> getTasksByUser(@AuthenticationPrincipal User user, Pageable pageable) {
         return ResponseEntity.ok().body(service.getTasksByUser(user, pageable));
+    }
+
+    @PostMapping(path = "/update")
+    public ResponseEntity<TaskResponseUpdateDTO> update(@AuthenticationPrincipal User user, @RequestBody @Valid TaskRequestUpdateDTO request) {
+        return ResponseEntity.ok().body(service.update(user, request));
     }
 }
