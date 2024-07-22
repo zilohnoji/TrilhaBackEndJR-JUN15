@@ -52,6 +52,12 @@ public class User implements UserDetails {
         }
 
         @Override
+        public UserSpecificationBuilder id(UUID id) {
+            this.entity.setId(id);
+            return this;
+        }
+
+        @Override
         public UserSpecificationBuilder name(String name) {
             this.entity.setName(name);
             return this;

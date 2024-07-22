@@ -9,6 +9,7 @@ import java.time.LocalDateTime;
 import java.util.UUID;
 
 public interface UserSpecificationBuilder extends Builder<User> {
+    UserSpecificationBuilder id(UUID id);
 
     UserSpecificationBuilder name(String name);
 
