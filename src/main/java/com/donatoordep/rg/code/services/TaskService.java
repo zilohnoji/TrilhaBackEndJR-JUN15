@@ -8,7 +8,6 @@ import com.donatoordep.rg.code.dtos.response.TaskResponseUpdateDTO;
 import com.donatoordep.rg.code.entities.Task;
 import com.donatoordep.rg.code.entities.User;
 import com.donatoordep.rg.code.enums.TaskStatus;
-import com.donatoordep.rg.code.exceptions.ONBEntityNotFoundException;
 import com.donatoordep.rg.code.mappers.entities.TaskMapper;
 import com.donatoordep.rg.code.repositories.impl.TaskRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,7 +18,6 @@ import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.List;
 import java.util.UUID;
 
 @Service
@@ -41,9 +39,7 @@ public class TaskService {
     }
 
     public void deleteById(User user, UUID id) {
-        List<Task> taskList = taskRepository.getTasksByUserId(user.getId());
-        Task task = taskList.stream().filter(item -> item.getId().equals(id)).findFirst().orElseThrow(ONBEntityNotFoundException::new);
-        taskRepository.delete(task);
+        taskRepository.deleteByIdOrThrowNotFound(id, user.getId());
     }
 
     public Page<TaskResponseGetAllDTO> getTasksByUser(User user, Pageable pageable) {

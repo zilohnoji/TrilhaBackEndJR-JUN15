@@ -125,6 +125,10 @@ public class Task {
         return content;
     }
 
+    public User getUser() {
+        return user;
+    }
+
     public TaskStatus getStatus() {
         return status;
     }

@@ -12,4 +12,11 @@ public interface TaskRepository extends TaskSpecification {
     default Task findByIdOrThrowNotFound(UUID id) {
         return this.findById(id).orElseThrow(ONBEntityNotFoundException::new);
     }
+
+    default void deleteByIdOrThrowNotFound(UUID taskId, UUID userId) {
+        boolean userContainTask = this.findByIdOrThrowNotFound(taskId).getUser().getId().equals(userId);
+        if (userContainTask) {
+            this.delete(this.findByIdOrThrowNotFound(taskId));
+        }
+    }
 }
