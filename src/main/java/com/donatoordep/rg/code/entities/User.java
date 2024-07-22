@@ -3,36 +3,33 @@ package com.donatoordep.rg.code.entities;
 import com.donatoordep.rg.code.builders.entities.UserSpecificationBuilder;
 import com.donatoordep.rg.code.enums.RoleName;
 import jakarta.persistence.*;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.userdetails.UserDetails;
 
-import java.time.LocalDateTime;
-import java.util.HashSet;
-import java.util.Objects;
-import java.util.Set;
-import java.util.UUID;
+import java.util.*;
 
 @Entity
 @Table(name = "tb_user")
-public class User {
+public class User implements UserDetails {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private UUID id;
-
     private String name;
     private String email;
     private String password;
     private boolean enabled;
 
-    @OneToOne(mappedBy = "user", cascade = CascadeType.ALL)
+    @OneToOne(cascade = CascadeType.ALL)
     private EmailCodeConfirmation code;
 
-    @ManyToMany(cascade = CascadeType.ALL)
+    @ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     @JoinTable(name = "tb_user_role", joinColumns = @JoinColumn(name = "user_id", referencedColumnName = "id"),
             inverseJoinColumns = @JoinColumn(name = "role_id", referencedColumnName = "id"))
     private final Set<Role> roles = new HashSet<>();
 
-    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
-    private final Set<Task> tasks = new HashSet<>();
+    @OneToMany(mappedBy = "user")
+    private final List<Task> tasks = new ArrayList<>();
 
     private User() {
     }
@@ -79,11 +76,22 @@ public class User {
         }
 
         @Override
+<<<<<<< HEAD
         public UserSpecificationBuilder code(String code, LocalDateTime expiredAt) {
             this.entity.setCode(EmailCodeConfirmation.EmailCodeConfirmationBuilder.builder()
                     .id(UUID.randomUUID())
                     .expiredAt(expiredAt)
                     .build());
+=======
+        public UserSpecificationBuilder code(EmailCodeConfirmation code) {
+            this.entity.setCode(code);
+            return this;
+        }
+
+        @Override
+        public UserSpecificationBuilder role(RoleName role) {
+            this.entity.addRole(new Role(role));
+>>>>>>> develop
             return this;
         }
 
@@ -99,6 +107,7 @@ public class User {
         }
     }
 
+<<<<<<< HEAD
     public EmailCodeConfirmation getCode() {
         return code;
     }
@@ -125,44 +134,92 @@ public class User {
 
     public UUID getId() {
         return id;
+=======
+    public void setName(String name) {
+        this.name = name;
+>>>>>>> develop
     }
 
     public void setId(UUID id) {
         this.id = id;
     }
 
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public String getEmail() {
-        return email;
-    }
-
     public void setEmail(String email) {
         this.email = email;
-    }
-
-    public String getPassword() {
-        return password;
     }
 
     public void setPassword(String password) {
         this.password = password;
     }
 
-    public boolean isEnabled() {
-        return enabled;
+    public void setCode(EmailCodeConfirmation code) {
+        this.code = code;
     }
 
-    public void activeAccount() {
+    public void addRole(Role role) {
+        this.roles.add(role);
+    }
+
+    public List<Task> getTasks() {
+        return tasks;
+    }
+
+    public UUID getId() {
+        return id;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public String getEmail() {
+        return email;
+    }
+
+    public EmailCodeConfirmation getCode() {
+        return code;
+    }
+
+    public User activeAccount() {
         if (!this.isEnabled()) {
             this.enabled = true;
         }
+        return this;
+    }
+
+    @Override
+    public Collection<? extends GrantedAuthority> getAuthorities() {
+        return roles;
+    }
+
+    @Override
+    public String getPassword() {
+        return password;
+    }
+
+    @Override
+    public String getUsername() {
+        return email;
+    }
+
+    @Override
+    public boolean isAccountNonExpired() {
+        return UserDetails.super.isAccountNonExpired();
+    }
+
+    @Override
+    public boolean isAccountNonLocked() {
+        return UserDetails.super.isAccountNonLocked();
+    }
+
+    @Override
+    public boolean isCredentialsNonExpired() {
+        return UserDetails.super.isCredentialsNonExpired();
+    }
+
+    @Override
+    public boolean isEnabled() {
+        return enabled;
     }
 
     @Override

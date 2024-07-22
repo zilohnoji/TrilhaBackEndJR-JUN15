@@ -2,6 +2,7 @@ package com.donatoordep.rg.code.entities;
 
 import com.donatoordep.rg.code.builders.entities.EmailCodeConfirmationSpecificationBuilder;
 import jakarta.persistence.*;
+import org.apache.commons.lang3.RandomStringUtils;
 
 import java.time.LocalDateTime;
 import java.util.Objects;
@@ -19,13 +20,8 @@ public class EmailCodeConfirmation {
 
     private LocalDateTime expiredAt;
 
-    @OneToOne
-    @JoinColumn(name = "user_id")
-    private User user;
-
     private EmailCodeConfirmation() {
     }
-
 
     public static class EmailCodeConfirmationBuilder implements EmailCodeConfirmationSpecificationBuilder {
 
@@ -45,12 +41,6 @@ public class EmailCodeConfirmation {
         }
 
         @Override
-        public EmailCodeConfirmationSpecificationBuilder id(UUID id) {
-            this.entity.setId(id);
-            return this;
-        }
-
-        @Override
         public EmailCodeConfirmationSpecificationBuilder code(String code) {
             this.entity.setCode(code);
             return this;
@@ -66,6 +56,13 @@ public class EmailCodeConfirmation {
         public void reset() {
             this.entity = new EmailCodeConfirmation();
         }
+    }
+
+    public static EmailCodeConfirmation createCodeConfirmation(LocalDateTime expiredAt, Integer strength) {
+        return EmailCodeConfirmation.EmailCodeConfirmationBuilder.builder()
+                .expiredAt(expiredAt)
+                .code(RandomStringUtils.randomAlphabetic(strength))
+                .build();
     }
 
     public UUID getId() {

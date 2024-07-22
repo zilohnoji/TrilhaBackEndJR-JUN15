@@ -1,5 +1,6 @@
 package com.donatoordep.rg.code.entities;
 
+import com.donatoordep.rg.code.builders.entities.TaskSpecificationBuilder;
 import com.donatoordep.rg.code.enums.TaskStatus;
 import jakarta.persistence.*;
 
@@ -22,28 +23,76 @@ public class Task {
     private TaskStatus status;
 
     @ManyToOne
-    @JoinColumn(name = "user_id")
     private User user;
 
     private Task() {
     }
 
-    private Task(String title, String content, TaskStatus status) {
-        this.title = title;
-        this.content = content;
+    public static class TaskBuilder implements TaskSpecificationBuilder {
+
+        private Task entity;
+
+        private TaskBuilder() {
+            this.reset();
+        }
+
+        public static TaskBuilder builder() {
+            return new TaskBuilder();
+        }
+
+        @Override
+        public Task build() {
+            return this.entity;
+        }
+
+        @Override
+        public TaskSpecificationBuilder title(String title) {
+            this.entity.setTitle(title);
+            return this;
+        }
+
+        @Override
+        public TaskSpecificationBuilder content(String content) {
+            this.entity.setContent(content);
+            return this;
+        }
+
+        @Override
+        public TaskSpecificationBuilder status(TaskStatus status) {
+            this.entity.setStatus(status);
+            return this;
+        }
+
+        @Override
+        public TaskSpecificationBuilder id(UUID id) {
+            this.entity.setId(id);
+            return this;
+        }
+
+        @Override
+        public void reset() {
+            this.entity = new Task();
+        }
+    }
+
+    public void setStatus(TaskStatus status) {
         this.status = status;
     }
 
-    public static Task ofCompleted(String title, String content) {
-        return new Task(title, content, TaskStatus.COMPLETED);
+    public void setTitle(String title) {
+        this.title = title;
     }
 
-    public static Task ofProgress(String title, String content) {
-        return new Task(title, content, TaskStatus.PROGRESS);
+    public void setContent(String content) {
+        this.content = content;
     }
 
-    public static Task ofQuit(String title, String content) {
-        return new Task(title, content, TaskStatus.QUIT);
+    public void setId(UUID id) {
+        this.id = id;
+    }
+
+    public void setUser(User user) {
+        this.user = user;
     }
 
     public UUID getId() {
@@ -58,12 +107,12 @@ public class Task {
         return content;
     }
 
-    public TaskStatus getStatus() {
-        return status;
+    public User getUser() {
+        return user;
     }
 
-    public void setStatus(TaskStatus status) {
-        this.status = status;
+    public TaskStatus getStatus() {
+        return status;
     }
 
     @Override
