@@ -7,9 +7,10 @@ import com.donatoordep.rg.code.dtos.response.TaskResponseRegisterDTO;
 import com.donatoordep.rg.code.dtos.response.TaskResponseUpdateDTO;
 import com.donatoordep.rg.code.entities.Task;
 import com.donatoordep.rg.code.entities.User;
-import com.donatoordep.rg.code.enums.TaskStatus;
 import com.donatoordep.rg.code.mappers.entities.TaskMapper;
 import com.donatoordep.rg.code.repositories.impl.TaskRepository;
+import com.donatoordep.rg.code.services.validations.task.update.TaskUpdateArgs;
+import com.donatoordep.rg.code.services.validations.task.update.TaskUpdateValidation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -18,6 +19,7 @@ import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.List;
 import java.util.UUID;
 
 @Service
@@ -25,6 +27,9 @@ import java.util.UUID;
 public class TaskService {
 
     private final TaskRepository taskRepository;
+
+    @Autowired
+    private List<TaskUpdateValidation> updateValidations;
 
     @Autowired
     public TaskService(TaskRepository taskRepository) {
@@ -49,17 +54,10 @@ public class TaskService {
 
     public TaskResponseUpdateDTO update(User user, TaskRequestUpdateDTO request) {
         Task entity = taskRepository.findByIdOrThrowNotFound(request.id());
-        if (request.status() != null) {
-            entity.setStatus(TaskStatus.valueOf(request.status().toUpperCase()));
-        }
 
-        if (request.title() != null) {
-            entity.setTitle(request.title());
-        }
-
-        if (request.content() != null) {
-            entity.setContent(request.content());
-        }
+        updateValidations.forEach(validation -> {
+            validation.validate(new TaskUpdateArgs(request, entity));
+        });
 
         return new TaskResponseUpdateDTO(taskRepository.save(entity), user.getId());
     }
