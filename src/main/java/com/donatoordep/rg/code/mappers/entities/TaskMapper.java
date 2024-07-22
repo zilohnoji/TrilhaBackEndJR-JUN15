@@ -2,6 +2,7 @@ package com.donatoordep.rg.code.mappers.entities;
 
 import com.donatoordep.rg.code.dtos.request.TaskRequestRegisterDTO;
 import com.donatoordep.rg.code.dtos.request.TaskRequestUpdateDTO;
+import com.donatoordep.rg.code.dtos.response.TaskResponseGetAllDTO;
 import com.donatoordep.rg.code.dtos.response.TaskResponseRegisterDTO;
 import com.donatoordep.rg.code.entities.Task;
 import com.donatoordep.rg.code.entities.User;
@@ -34,6 +35,15 @@ public class TaskMapper {
                 .title(request.title())
                 .content(request.content())
                 .status(TaskStatus.valueOfOrThrowNotExists(request.status()))
+                .build();
+    }
+
+    public static TaskResponseGetAllDTO toResponse(Task entity) {
+        return TaskResponseGetAllDTO.TaskResponseGetAllDTOBuilder.builder()
+                .identifier(entity.getId())
+                .title(entity.getTitle())
+                .content(entity.getContent())
+                .status(entity.getStatus().toString())
                 .build();
     }
 }

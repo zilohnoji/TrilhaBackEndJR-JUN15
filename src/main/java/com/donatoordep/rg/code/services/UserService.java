@@ -66,7 +66,7 @@ public class UserService {
 
         emailService.sendCodeForEmail(entity.getCode(), request.email());
 
-        return UserMapper.toResponse(userRepository.save(entity));
+        return UserMapper.toResponseForRegisterDto(userRepository.save(entity));
     }
 
     public UserResponseAuthenticationDTO authentication(UserRequestAuthenticationDTO request) {
@@ -91,7 +91,7 @@ public class UserService {
     }
 
     public UserResponseGetProfileInfoDTO getUserProfile(User user) {
-        return new UserResponseGetProfileInfoDTO(userRepository.findByIdOrThrowNotFound(user.getId()));
+        return UserMapper.toResponseForGetAllDto(userRepository.findByIdOrThrowNotFound(user.getId()));
     }
 
     private Authentication authenticate(String username, String password) {

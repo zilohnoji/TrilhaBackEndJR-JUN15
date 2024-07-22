@@ -10,5 +10,6 @@ public record TaskRequestRegisterDTO(
         String content,
 
         @NotBlank(message = "{TaskRequestRegisterDTO.NotBlank}")
-        String status) {
+        String status
+) {
 }

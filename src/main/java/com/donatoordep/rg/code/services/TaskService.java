@@ -49,7 +49,7 @@ public class TaskService {
 
     public Page<TaskResponseGetAllDTO> getTasksByUser(User user, Pageable pageable) {
         PageRequest pageRequest = PageRequest.of(pageable.getPageNumber(), pageable.getPageSize(), Sort.by("title"));
-        return taskRepository.getTasksByUserId(user.getId(), pageRequest).map(TaskResponseGetAllDTO::new);
+        return taskRepository.getTasksByUserId(user.getId(), pageRequest).map(TaskMapper::toResponse);
     }
 
     public TaskResponseUpdateDTO update(User user, TaskRequestUpdateDTO request) {
