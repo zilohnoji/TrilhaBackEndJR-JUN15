@@ -17,11 +17,7 @@ public interface UserSpecificationBuilder extends Builder<User> {
 
     UserSpecificationBuilder password(String password);
 
-<<<<<<< HEAD
-    UserSpecificationBuilder code(String code, LocalDateTime expiredAt);
-=======
     UserSpecificationBuilder code(EmailCodeConfirmation code);
->>>>>>> develop
 
     UserSpecificationBuilder role(RoleName role);
 }

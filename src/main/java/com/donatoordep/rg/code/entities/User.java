@@ -75,23 +75,9 @@ public class User implements UserDetails {
             return this;
         }
 
-        @Override
-<<<<<<< HEAD
-        public UserSpecificationBuilder code(String code, LocalDateTime expiredAt) {
-            this.entity.setCode(EmailCodeConfirmation.EmailCodeConfirmationBuilder.builder()
-                    .id(UUID.randomUUID())
-                    .expiredAt(expiredAt)
-                    .build());
-=======
+
         public UserSpecificationBuilder code(EmailCodeConfirmation code) {
             this.entity.setCode(code);
-            return this;
-        }
-
-        @Override
-        public UserSpecificationBuilder role(RoleName role) {
-            this.entity.addRole(new Role(role));
->>>>>>> develop
             return this;
         }
 
@@ -107,17 +93,16 @@ public class User implements UserDetails {
         }
     }
 
-<<<<<<< HEAD
+    public List<Task> getTasks() {
+        return tasks;
+    }
+
     public EmailCodeConfirmation getCode() {
         return code;
     }
 
     public Set<Role> getRoles() {
         return roles;
-    }
-
-    public Set<Task> getTasks() {
-        return tasks;
     }
 
     public void setCode(EmailCodeConfirmation code) {
@@ -134,10 +119,10 @@ public class User implements UserDetails {
 
     public UUID getId() {
         return id;
-=======
+    }
+
     public void setName(String name) {
         this.name = name;
->>>>>>> develop
     }
 
     public void setId(UUID id) {
@@ -152,32 +137,12 @@ public class User implements UserDetails {
         this.password = password;
     }
 
-    public void setCode(EmailCodeConfirmation code) {
-        this.code = code;
-    }
-
-    public void addRole(Role role) {
-        this.roles.add(role);
-    }
-
-    public List<Task> getTasks() {
-        return tasks;
-    }
-
-    public UUID getId() {
-        return id;
-    }
-
     public String getName() {
         return name;
     }
 
     public String getEmail() {
         return email;
-    }
-
-    public EmailCodeConfirmation getCode() {
-        return code;
     }
 
     public User activeAccount() {

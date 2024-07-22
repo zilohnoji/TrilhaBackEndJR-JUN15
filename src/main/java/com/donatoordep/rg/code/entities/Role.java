@@ -20,14 +20,11 @@ public class Role implements GrantedAuthority {
     private Role() {
     }
 
-<<<<<<< HEAD
     public Role(Long id, RoleName role) {
         this.role = role;
         this.id = id;
     }
 
-=======
->>>>>>> develop
     public Role(RoleName role) {
         this.role = role;
     }

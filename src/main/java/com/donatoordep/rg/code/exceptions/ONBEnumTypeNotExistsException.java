@@ -4,15 +4,15 @@ import com.donatoordep.rg.code.exceptions.base.ONBExceptionSpecification;
 
 public class ONBEnumTypeNotExistsException extends RuntimeException implements ONBExceptionSpecification {
 
-    private static final String ERROR = "enum type not exists";
-    private static final Integer STATUS = 400;
+    private static String ERROR = "enum type not exists";
+    private static Integer STATUS = 400;
 
     public ONBEnumTypeNotExistsException() {
         super(ERROR);
     }
 
     public ONBEnumTypeNotExistsException(String existsTypes) {
-        super(ERROR + " exists types: " + existsTypes);
+        super(String.format("%s, exists types: %s", ERROR, existsTypes));
     }
 
     public String getError() {
