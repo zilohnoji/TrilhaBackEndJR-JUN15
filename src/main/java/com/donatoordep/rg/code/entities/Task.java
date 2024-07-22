@@ -28,12 +28,6 @@ public class Task {
     private Task() {
     }
 
-    private Task(String title, String content, TaskStatus status) {
-        this.title = title;
-        this.content = content;
-        this.status = status;
-    }
-
     public static class TaskBuilder implements TaskSpecificationBuilder {
 
         private Task entity;
@@ -81,18 +75,6 @@ public class Task {
         }
     }
 
-    public static Task ofCompleted(String title, String content) {
-        return new Task(title, content, TaskStatus.COMPLETED);
-    }
-
-    public static Task ofProgress(String title, String content) {
-        return new Task(title, content, TaskStatus.PROGRESS);
-    }
-
-    public static Task ofQuit(String title, String content) {
-        return new Task(title, content, TaskStatus.QUIT);
-    }
-
     public void setStatus(TaskStatus status) {
         this.status = status;
     }
@@ -105,16 +87,16 @@ public class Task {
         this.content = content;
     }
 
-    public UUID getId() {
-        return id;
-    }
-
     public void setId(UUID id) {
         this.id = id;
     }
 
     public void setUser(User user) {
         this.user = user;
+    }
+
+    public UUID getId() {
+        return id;
     }
 
     public String getTitle() {

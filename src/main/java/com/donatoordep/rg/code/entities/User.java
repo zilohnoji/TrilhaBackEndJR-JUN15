@@ -2,7 +2,6 @@ package com.donatoordep.rg.code.entities;
 
 import com.donatoordep.rg.code.builders.entities.UserSpecificationBuilder;
 import com.donatoordep.rg.code.enums.RoleName;
-import com.donatoordep.rg.code.exceptions.ONBEntityNotFoundException;
 import jakarta.persistence.*;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -88,53 +87,12 @@ public class User implements UserDetails {
         }
     }
 
-    public Task findTaskById(UUID id) {
-        return tasks.stream().filter(task -> task.getId().equals(id)).findFirst().orElseThrow(ONBEntityNotFoundException::new);
-    }
-
-    public void deleteTaskById(UUID id) {
-        tasks.remove(this.findTaskById(id));
-    }
-
-    public List<Task> getTasks() {
-        return tasks;
-    }
-
-    public EmailCodeConfirmation getCode() {
-        return code;
-    }
-
-    public void setCode(EmailCodeConfirmation code) {
-        this.code = code;
-    }
-
-    public void addTask(Task task) {
-        task.setUser(this);
-        this.tasks.add(task);
-    }
-
-    public void addRole(Role role) {
-        this.roles.add(role);
-    }
-
-    public UUID getId() {
-        return id;
-    }
-
-    public void setId(UUID id) {
-        this.id = id;
-    }
-
-    public String getName() {
-        return name;
-    }
-
     public void setName(String name) {
         this.name = name;
     }
 
-    public String getEmail() {
-        return email;
+    public void setId(UUID id) {
+        this.id = id;
     }
 
     public void setEmail(String email) {
@@ -143,6 +101,34 @@ public class User implements UserDetails {
 
     public void setPassword(String password) {
         this.password = password;
+    }
+
+    public void setCode(EmailCodeConfirmation code) {
+        this.code = code;
+    }
+
+    public void addRole(Role role) {
+        this.roles.add(role);
+    }
+
+    public List<Task> getTasks() {
+        return tasks;
+    }
+
+    public UUID getId() {
+        return id;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public String getEmail() {
+        return email;
+    }
+
+    public EmailCodeConfirmation getCode() {
+        return code;
     }
 
     public User activeAccount() {

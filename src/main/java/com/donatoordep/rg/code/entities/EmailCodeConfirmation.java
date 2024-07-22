@@ -58,7 +58,6 @@ public class EmailCodeConfirmation {
         }
     }
 
-
     public static EmailCodeConfirmation createCodeConfirmation(LocalDateTime expiredAt, Integer strength) {
         return EmailCodeConfirmation.EmailCodeConfirmationBuilder.builder()
                 .expiredAt(expiredAt)
