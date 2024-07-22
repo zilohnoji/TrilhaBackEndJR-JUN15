@@ -16,7 +16,7 @@ public class TaskMapper {
         return Task.TaskBuilder.builder()
                 .title(request.title())
                 .content(request.content())
-                .status(TaskStatus.valueOf(request.status().toUpperCase()))
+                .status(TaskStatus.valueOfOrThrowNotExists(request.status()))
                 .build();
     }
 
@@ -33,7 +33,7 @@ public class TaskMapper {
                 .id(request.id())
                 .title(request.title())
                 .content(request.content())
-                .status(TaskStatus.valueOf(request.status()))
+                .status(TaskStatus.valueOfOrThrowNotExists(request.status()))
                 .build();
     }
 }

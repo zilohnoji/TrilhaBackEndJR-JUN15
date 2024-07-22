@@ -36,6 +36,11 @@ public class ControllerHandlerException {
         return this.createHandleException(exception, request.getRequestURI());
     }
 
+    @ExceptionHandler(ONBEnumTypeNotExistsException.class)
+    public ResponseEntity<StandardError> enumTypeNotExists(ONBEnumTypeNotExistsException exception, HttpServletRequest request) {
+        return this.createHandleException(exception, request.getRequestURI());
+    }
+
     @ExceptionHandler(ONBAccountDoesNotActiveException.class)
     public ResponseEntity<StandardError> accountDoesNotActive(ONBAccountDoesNotActiveException exception, HttpServletRequest request) {
         return this.createHandleException(exception, request.getRequestURI());
