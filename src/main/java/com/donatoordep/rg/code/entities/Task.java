@@ -58,6 +58,12 @@ public class Task {
         }
 
         @Override
+        public TaskSpecificationBuilder user(User user) {
+            this.entity.setUser(user);
+            return this;
+        }
+
+        @Override
         public TaskSpecificationBuilder status(TaskStatus status) {
             this.entity.setStatus(status);
             return this;

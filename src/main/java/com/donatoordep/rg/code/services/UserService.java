@@ -44,7 +44,7 @@ public class UserService {
     private List<UserAuthenticationValidation> authenticationValidations;
 
     @Autowired
-    private List<UserActiveAccountValidation> activeAcountValidations;
+    private List<UserActiveAccountValidation> activeAccountValidations;
 
     @Autowired
     public UserService(UserRepository userRepository, PasswordEncoder passwordEncoder, EmailService emailService,
@@ -82,7 +82,7 @@ public class UserService {
     }
 
     public void activeAccount(String token) {
-        activeAcountValidations.forEach(validation -> {
+        activeAccountValidations.forEach(validation -> {
             validation.validate(new UserActiveAccountArgs(token, emailCodeConfirmationRepository));
         });
 
