@@ -5,6 +5,8 @@ import com.donatoordep.rg.code.entities.User;
 import com.donatoordep.rg.code.enums.RoleName;
 import com.donatoordep.rg.code.repositories.impl.UserRepository;
 
+import java.util.UUID;
+
 public class UserFactory {
 
     private static final String NAME = "User Name";
@@ -15,6 +17,18 @@ public class UserFactory {
 
     public static User createUser() {
         return User.UserBuilder.builder()
+                .id(UUID.randomUUID())
+                .name(NAME)
+                .email(EMAIL)
+                .password(PASSWORD)
+                .role(ROLE)
+                .code(CODE_CONFIRMATION)
+                .build();
+    }
+
+    public static User createUser(UUID uuid) {
+        return User.UserBuilder.builder()
+                .id(uuid)
                 .name(NAME)
                 .email(EMAIL)
                 .password(PASSWORD)
@@ -25,6 +39,7 @@ public class UserFactory {
 
     public static User createUser(EmailCodeConfirmation code) {
         return User.UserBuilder.builder()
+                .id(UUID.randomUUID())
                 .name(NAME)
                 .email(EMAIL)
                 .password(PASSWORD)

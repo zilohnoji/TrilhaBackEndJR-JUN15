@@ -40,20 +40,19 @@ public class UserService {
     private final JWTTokenUtil jwtTokenUtil;
     private final EmailCodeConfirmationRepository emailCodeConfirmationRepository;
 
-    @Autowired
-    private List<UserAuthenticationValidation> authenticationValidations;
+    private final List<UserAuthenticationValidation> authenticationValidations;
+    private final List<UserActiveAccountValidation> activeAccountValidations;
 
-    @Autowired
-    private List<UserActiveAccountValidation> activeAccountValidations;
-
-    @Autowired
     public UserService(UserRepository userRepository, PasswordEncoder passwordEncoder, EmailService emailService,
-                       AuthenticationManager manager, JWTTokenUtil jwtTokenUtil, EmailCodeConfirmationRepository emailCodeConfirmationRepository) {
+                       AuthenticationManager manager, JWTTokenUtil jwtTokenUtil, EmailCodeConfirmationRepository emailCodeConfirmationRepository,
+                       List<UserAuthenticationValidation> authenticationValidations, List<UserActiveAccountValidation> activeAccountValidation) {
         this.userRepository = userRepository;
         this.passwordEncoder = passwordEncoder;
         this.emailService = emailService;
         this.manager = manager;
         this.jwtTokenUtil = jwtTokenUtil;
+        this.activeAccountValidations = activeAccountValidation;
+        this.authenticationValidations = authenticationValidations;
         this.emailCodeConfirmationRepository = emailCodeConfirmationRepository;
     }
 
@@ -87,7 +86,8 @@ public class UserService {
         });
 
         User entity = userRepository.findByEmailCodeConfirmationOrThrowNotFound(token);
-        userRepository.save(entity.activeAccount());
+        entity.activeAccount();
+        userRepository.save(entity);
     }
 
     public UserResponseGetProfileInfoDTO getUserProfile(User user) {
