@@ -5,7 +5,7 @@ import com.donatoordep.rg.code.services.validations.user.activeAccount.UserActiv
 import org.springframework.stereotype.Component;
 
 @Component
-public class TokenDoesNotExists implements UserActiveAccountValidation {
+public class TokenDoesNotExistsValidation implements UserActiveAccountValidation {
 
     @Override
     public void validate(UserActiveAccountArgs args) {

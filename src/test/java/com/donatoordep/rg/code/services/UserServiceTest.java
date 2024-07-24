@@ -2,7 +2,6 @@ package com.donatoordep.rg.code.services;
 
 import com.donatoordep.rg.code.entities.EmailCodeConfirmation;
 import com.donatoordep.rg.code.entities.User;
-import com.donatoordep.rg.code.exceptions.ONBEmailCodeConfirmationExpiredException;
 import com.donatoordep.rg.code.factory.EmailCodeConfirmationFactory;
 import com.donatoordep.rg.code.factory.UserFactory;
 import com.donatoordep.rg.code.util.ApplicationConfigTest;
@@ -41,11 +40,4 @@ public class UserServiceTest extends ApplicationConfigTest {
             this.userService.activeAccount(entity.getCode().getCode());
         }, "Expected nothing exception, but throw exception");
     }
-
-//    @Test
-//    void activeAccountShouldThrowTokenDoesNotExistsWhenTokenNotIsValid() {
-//        Assertions.assertThrows(ONBEmailCodeConfirmationExpiredException.class, () -> {
-//            this.userService.activeAccount(codeExpired.getCode());
-//        });
-//    }
 }
