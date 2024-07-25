@@ -6,8 +6,6 @@ import com.donatoordep.rg.code.repositories.impl.UserRepository;
 import com.donatoordep.rg.code.services.EmailService;
 import com.donatoordep.rg.code.services.UserService;
 import com.donatoordep.rg.code.services.validations.user.activeAccount.UserActiveAccountValidation;
-import com.donatoordep.rg.code.services.validations.user.activeAccount.validations.ExpiredTokenValidation;
-import com.donatoordep.rg.code.services.validations.user.activeAccount.validations.TokenDoesNotExistsValidation;
 import com.donatoordep.rg.code.services.validations.user.authentication.UserAuthenticationValidation;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
@@ -25,6 +23,9 @@ public abstract class ApplicationConfigTest {
     protected UserRepository userRepository;
 
     @Mock
+    protected UserActiveAccountValidation validation;
+
+    @Mock
     protected EmailCodeConfirmationRepository emailCodeConfirmationRepository;
 
     @Mock
@@ -38,12 +39,6 @@ public abstract class ApplicationConfigTest {
 
     @Mock
     protected JWTTokenUtil jwtTokenUtil;
-
-    @Mock
-    protected ExpiredTokenValidation expiredTokenValidation;
-
-    @Mock
-    protected TokenDoesNotExistsValidation tokenDoesNotExistsValidation;
 
     @Mock
     protected List<UserAuthenticationValidation> authenticationValidations;

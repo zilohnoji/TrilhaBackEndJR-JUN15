@@ -17,7 +17,6 @@ import com.donatoordep.rg.code.services.validations.user.activeAccount.UserActiv
 import com.donatoordep.rg.code.services.validations.user.authentication.UserAuthenticationArgs;
 import com.donatoordep.rg.code.services.validations.user.authentication.UserAuthenticationValidation;
 import jakarta.mail.MessagingException;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;

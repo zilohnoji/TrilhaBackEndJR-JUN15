@@ -10,15 +10,11 @@ public class EmailCodeConfirmationFactory {
 
 
     public static EmailCodeConfirmation createCode() {
-        EmailCodeConfirmation code = EmailCodeConfirmation.createCodeConfirmation(LocalDateTime.now().plusMinutes(30), 32);
-        code.setId(UUID.randomUUID());
-        return code;
+        return EmailCodeConfirmation.createCodeConfirmation(LocalDateTime.now().plusMinutes(30), 32);
     }
 
     public static EmailCodeConfirmation createCode(LocalDateTime expiredAt) {
-        EmailCodeConfirmation code = EmailCodeConfirmation.createCodeConfirmation(expiredAt, 32);
-        code.setId(UUID.randomUUID());
-        return code;
+        return EmailCodeConfirmation.createCodeConfirmation(expiredAt, 32);
     }
 
     public static EmailCodeConfirmation persist(EmailCodeConfirmationRepository repository, EmailCodeConfirmation entity) {

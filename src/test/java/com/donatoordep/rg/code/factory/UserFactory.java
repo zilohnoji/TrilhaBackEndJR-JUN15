@@ -26,17 +26,6 @@ public class UserFactory {
                 .build();
     }
 
-    public static User createUser(UUID uuid) {
-        return User.UserBuilder.builder()
-                .id(uuid)
-                .name(NAME)
-                .email(EMAIL)
-                .password(PASSWORD)
-                .role(ROLE)
-                .code(CODE_CONFIRMATION)
-                .build();
-    }
-
     public static User createUser(EmailCodeConfirmation code) {
         return User.UserBuilder.builder()
                 .id(UUID.randomUUID())
