@@ -5,6 +5,8 @@ import com.donatoordep.rg.code.entities.User;
 import com.donatoordep.rg.code.enums.TaskStatus;
 import com.donatoordep.rg.code.repositories.impl.TaskRepository;
 
+import java.util.UUID;
+
 public class TaskFactory {
 
     private static final String TITLE = "Task Title";
@@ -13,6 +15,7 @@ public class TaskFactory {
 
     public static Task createTask() {
         return Task.TaskBuilder.builder()
+                .id(UUID.randomUUID())
                 .title(TITLE)
                 .content(CONTENT)
                 .status(STATUS)
@@ -21,6 +24,7 @@ public class TaskFactory {
 
     public static Task createTask(User user) {
         return Task.TaskBuilder.builder()
+                .id(UUID.randomUUID())
                 .title(TITLE)
                 .content(CONTENT)
                 .status(STATUS)

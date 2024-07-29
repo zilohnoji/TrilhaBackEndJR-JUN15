@@ -56,7 +56,6 @@ public class UserService {
     }
 
     public UserResponseRegisterDTO register(UserRequestRegisterDTO request) throws MessagingException, UnsupportedEncodingException {
-
         User entity = UserMapper.toEntity(request);
 
         entity.setCode(EmailCodeConfirmation.createCodeConfirmation(LocalDateTime.now().plusMinutes(30), 32));
