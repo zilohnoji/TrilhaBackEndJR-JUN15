@@ -1,11 +1,14 @@
 package com.donatoordep.rg.code.services;
 
+import com.donatoordep.rg.code.dtos.request.UserRequestAuthenticationDTO;
 import com.donatoordep.rg.code.dtos.request.UserRequestRegisterDTO;
+import com.donatoordep.rg.code.dtos.response.UserResponseAuthenticationDTO;
 import com.donatoordep.rg.code.dtos.response.UserResponseGetProfileInfoDTO;
 import com.donatoordep.rg.code.dtos.response.UserResponseRegisterDTO;
 import com.donatoordep.rg.code.entities.EmailCodeConfirmation;
 import com.donatoordep.rg.code.entities.Task;
 import com.donatoordep.rg.code.entities.User;
+import com.donatoordep.rg.code.exceptions.ONBAccountDoesNotActiveException;
 import com.donatoordep.rg.code.exceptions.ONBEmailCodeConfirmationDoesNotExistsException;
 import com.donatoordep.rg.code.exceptions.ONBEmailCodeConfirmationExpiredException;
 import com.donatoordep.rg.code.factory.EmailCodeConfirmationFactory;
@@ -15,10 +18,13 @@ import com.donatoordep.rg.code.services.validations.user.activeAccount.validatio
 import com.donatoordep.rg.code.services.validations.user.activeAccount.validations.TokenDoesNotExistsValidation;
 import com.donatoordep.rg.code.services.validations.user.authentication.validations.AccountDoesNotActiveValidation;
 import com.donatoordep.rg.code.util.ApplicationConfigTest;
+import com.donatoordep.rg.code.util.TokenUtil;
 import jakarta.mail.MessagingException;
 import org.junit.jupiter.api.*;
 import org.mockito.ArgumentMatchers;
 import org.mockito.Mockito;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.Authentication;
 
 import java.io.UnsupportedEncodingException;
 import java.time.LocalDateTime;
@@ -82,8 +88,31 @@ class UserServiceTest extends ApplicationConfigTest {
         Assertions.assertEquals(entity.getId(), response.getIdentifier(),
                 () -> String.format("Expected id '%s', but return '%s'", entity.getId(), response.getIdentifier())
         );
+
+        Assertions.assertEquals(1, response.getTasks().size(),
+                () -> String.format("Expected size 1, but return '%s'", response.getTasks().size())
+        );
     }
 
+    @Test
+    void authenticationShouldReturnUserResponseAuthenticationDTOWhenRequestValidData() {
+        Authentication authentication = Mockito.mock(Authentication.class);
+        entity.activeAccount();
+
+        Mockito.when(this.userRepository.findByEmailOrThrowNotFound(entity.getEmail())).thenReturn(entity);
+        Mockito.when(this.manager.authenticate(ArgumentMatchers.any(UsernamePasswordAuthenticationToken.class))).thenReturn(authentication);
+        Mockito.when(authentication.getPrincipal()).thenReturn(entity);
+        Mockito.when(this.jwtTokenUtil.generateToken(entity)).thenReturn(TokenUtil.generateJwtToken(entity));
+
+        UserRequestAuthenticationDTO request = new UserRequestAuthenticationDTO(entity.getEmail(), "12345678");
+        UserResponseAuthenticationDTO response = this.userService.authentication(request);
+
+        Assertions.assertNotNull(response, "Expected a object, but return null");
+        Assertions.assertNotNull(response.getToken(), "Expected a token, but return null");
+        Assertions.assertEquals(entity.getEmail(), response.getEmail(),
+                () -> String.format("Expected email '%s', but return '%s'", entity.getEmail(), response.getEmail())
+        );
+    }
 
     @Test
     void activeAccountShouldActiveUserWhenTokenIsValid() {
@@ -105,6 +134,16 @@ class UserServiceTest extends ApplicationConfigTest {
 
             Assertions.assertThrows(ONBEmailCodeConfirmationDoesNotExistsException.class, () -> {
                 userService.activeAccount("");
+            });
+        }
+
+        @Test
+        void authenticationShouldThrowONBAccountDoesNotActiveExceptionWhenAccountNotActive() {
+            Mockito.when(userRepository.findByEmailOrThrowNotFound(entity.getEmail())).thenReturn(entity);
+            UserRequestAuthenticationDTO request = new UserRequestAuthenticationDTO(entity.getEmail(), "12345678");
+
+            Assertions.assertThrows(ONBAccountDoesNotActiveException.class, () -> {
+                userService.authentication(request);
             });
         }
 

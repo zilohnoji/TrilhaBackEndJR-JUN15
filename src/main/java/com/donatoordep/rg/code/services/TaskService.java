@@ -29,12 +29,12 @@ public class TaskService {
 
     private final TaskRepository taskRepository;
 
-    @Autowired
     private List<TaskUpdateValidation> updateValidations;
 
     @Autowired
-    public TaskService(TaskRepository taskRepository) {
+    public TaskService(TaskRepository taskRepository, List<TaskUpdateValidation> updateValidations) {
         this.taskRepository = taskRepository;
+        this.updateValidations = updateValidations;
     }
 
     public TaskResponseRegisterDTO create(User user, TaskRequestRegisterDTO request) {
@@ -62,5 +62,9 @@ public class TaskService {
         });
 
         return new TaskResponseUpdateDTO(taskRepository.save(entity), user.getId());
+    }
+
+    public void setUpdateValidations(List<TaskUpdateValidation> updateValidations) {
+        this.updateValidations = updateValidations;
     }
 }
