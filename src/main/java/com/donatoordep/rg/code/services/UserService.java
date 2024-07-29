@@ -39,8 +39,8 @@ public class UserService {
     private final JWTTokenUtil jwtTokenUtil;
     private final EmailCodeConfirmationRepository emailCodeConfirmationRepository;
 
-    private final List<UserAuthenticationValidation> authenticationValidations;
-    private final List<UserActiveAccountValidation> activeAccountValidations;
+    private List<UserAuthenticationValidation> authenticationValidations;
+    private List<UserActiveAccountValidation> activeAccountValidations;
 
     public UserService(UserRepository userRepository, PasswordEncoder passwordEncoder, EmailService emailService,
                        AuthenticationManager manager, JWTTokenUtil jwtTokenUtil, EmailCodeConfirmationRepository emailCodeConfirmationRepository,
@@ -95,5 +95,13 @@ public class UserService {
 
     private Authentication authenticate(String username, String password) {
         return manager.authenticate(new UsernamePasswordAuthenticationToken(username, password));
+    }
+
+    public void setAuthenticationValidations(List<UserAuthenticationValidation> authenticationValidations) {
+        this.authenticationValidations = authenticationValidations;
+    }
+
+    public void setActiveAccountValidations(List<UserActiveAccountValidation> activeAccountValidations) {
+        this.activeAccountValidations = activeAccountValidations;
     }
 }

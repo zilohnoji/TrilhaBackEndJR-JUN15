@@ -103,7 +103,7 @@ public class UserServiceIT extends ApplicationConfigIT {
     class UserServiceITFail {
 
         @Test
-        void activeAccountShouldThrowONBEmailCodeConfirmationExpiredExceptionWhenTokenHasExpired() {
+        void activeAccountShouldThrowEmailCodeConfirmationExpiredExceptionWhenTokenHasExpired() {
             expiredCode = EmailCodeConfirmationFactory.persist(emailCodeConfirmationRepository, expiredCode);
             User userExpiredCode = UserFactory.persist(userRepository, UserFactory.createUser(expiredCode));
 

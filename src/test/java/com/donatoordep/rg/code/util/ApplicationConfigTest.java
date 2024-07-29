@@ -23,9 +23,6 @@ public abstract class ApplicationConfigTest {
     protected UserRepository userRepository;
 
     @Mock
-    protected UserActiveAccountValidation validation;
-
-    @Mock
     protected EmailCodeConfirmationRepository emailCodeConfirmationRepository;
 
     @Mock
@@ -40,12 +37,10 @@ public abstract class ApplicationConfigTest {
     @Mock
     protected JWTTokenUtil jwtTokenUtil;
 
-    @Mock
-    protected List<UserAuthenticationValidation> authenticationValidations;
-
-    @Mock
-    protected List<UserActiveAccountValidation> activeAccountValidations;
-
     @InjectMocks
     protected UserService userService;
+
+    protected List<UserAuthenticationValidation> authenticationValidations;
+
+    protected List<UserActiveAccountValidation> activeAccountValidations;
 }
