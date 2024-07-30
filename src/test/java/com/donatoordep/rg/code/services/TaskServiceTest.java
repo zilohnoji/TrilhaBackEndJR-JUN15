@@ -7,16 +7,14 @@ import com.donatoordep.rg.code.dtos.response.TaskResponseRegisterDTO;
 import com.donatoordep.rg.code.dtos.response.TaskResponseUpdateDTO;
 import com.donatoordep.rg.code.entities.Task;
 import com.donatoordep.rg.code.entities.User;
+import com.donatoordep.rg.code.exceptions.ONBEnumTypeNotExistsException;
 import com.donatoordep.rg.code.factory.TaskFactory;
 import com.donatoordep.rg.code.factory.UserFactory;
 import com.donatoordep.rg.code.services.validations.task.update.validations.TaskContentNullableValidation;
 import com.donatoordep.rg.code.services.validations.task.update.validations.TaskStatusNullableValidation;
 import com.donatoordep.rg.code.services.validations.task.update.validations.TaskTitleNullableValidation;
 import com.donatoordep.rg.code.util.ApplicationConfigTest;
-import org.junit.jupiter.api.Assertions;
-import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.DisplayName;
-import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.*;
 import org.mockito.ArgumentMatchers;
 import org.mockito.InjectMocks;
 import org.mockito.Mockito;
@@ -132,5 +130,20 @@ class TaskServiceTest extends ApplicationConfigTest {
         Assertions.assertEquals(request.id(), response.getIdentifier(),
                 () -> String.format("Expected identifier '%s', but return '%s'", request.id(), response.getIdentifier())
         );
+    }
+
+    @Nested
+    @DisplayName("Service Class Fail Test")
+    class TaskServiceFailTest {
+        @Test
+        void updateShouldThrowEnumTypeNotExistsWhenEnumNotExists() {
+            Mockito.when(taskRepository.findByIdOrThrowNotFound(task.getId())).thenReturn(task);
+
+            TaskRequestUpdateDTO request = new TaskRequestUpdateDTO(task.getId(), null, null, "invalid enum");
+
+            Assertions.assertThrows(ONBEnumTypeNotExistsException.class, () -> {
+                taskService.update(user, request);
+            });
+        }
     }
 }

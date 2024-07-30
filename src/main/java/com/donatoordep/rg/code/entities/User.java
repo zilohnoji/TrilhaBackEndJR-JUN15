@@ -101,10 +101,6 @@ public class User implements UserDetails {
         return code;
     }
 
-    public Set<Role> getRoles() {
-        return roles;
-    }
-
     public void setCode(EmailCodeConfirmation code) {
         this.code = code;
     }
