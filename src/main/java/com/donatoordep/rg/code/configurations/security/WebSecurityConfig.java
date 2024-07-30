@@ -49,7 +49,7 @@ public class WebSecurityConfig {
         http.cors(cors -> cors.configurationSource(configureResourceOfCors()));
 
         http.authorizeHttpRequests(authorization -> {
-            authorization.requestMatchers("/v3/api-docs/**", "/swagger-ui/**", "/swagger-ui.html").permitAll();
+            authorization.requestMatchers(this.getWhiteListUrl()).permitAll();
 
             authorization.requestMatchers(HttpMethod.POST, "/users").permitAll();
             authorization.requestMatchers(HttpMethod.POST, "/users/auth").permitAll();
@@ -84,5 +84,12 @@ public class WebSecurityConfig {
         final UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
         source.registerCorsConfiguration("/**", configuration);
         return source;
+    }
+
+    private String[] getWhiteListUrl() {
+        return new String[]{"/api/v1/auth/**", "/v2/api-docs", "/v3/api-docs",
+                "/v3/api-docs/**", "/swagger-resources", "/swagger-resources/**", "/configuration/ui",
+                "/configuration/security", "/swagger-ui/**", "/webjars/**", "/swagger-ui.html", "/api/auth/**",
+                "/api/test/**", "/authenticate"};
     }
 }

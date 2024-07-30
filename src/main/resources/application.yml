@@ -2,6 +2,9 @@ spring:
   application:
     name: rg-code
 
+  profiles:
+    active: test
+
   messages:
     basename: i18n/messages
     encoding: UTF-8
