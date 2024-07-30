@@ -13,6 +13,7 @@ public class ONBEnumTypeNotExistsException extends RuntimeException implements O
 
     public ONBEnumTypeNotExistsException(String existsTypes) {
         super(String.format("%s, exists types: %s", ERROR, existsTypes));
+        ERROR += ", exists types: " + existsTypes;
     }
 
     public String getError() {
