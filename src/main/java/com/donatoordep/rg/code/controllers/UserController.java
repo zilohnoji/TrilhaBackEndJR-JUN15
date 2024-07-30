@@ -9,6 +9,7 @@ import com.donatoordep.rg.code.entities.User;
 import com.donatoordep.rg.code.services.UserService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import jakarta.mail.MessagingException;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -43,14 +44,20 @@ public class UserController {
 
     @PostMapping(path = "/auth")
     @Operation(description = "Autenticar usuário", method = "POST")
-    @ApiResponse(responseCode = "200", description = "Usuário autenticado com sucesso")
+    @ApiResponses({
+            @ApiResponse(responseCode = "200", description = "Usuário autenticado com sucesso"),
+            @ApiResponse(responseCode = "404", description = "Usuário não encontrado"),
+            @ApiResponse(responseCode = "422", description = "Erro na entrada de dados")
+    })
     public ResponseEntity<UserResponseAuthenticationDTO> authentication(@RequestBody @Valid UserRequestAuthenticationDTO request) {
         return ResponseEntity.ok().body(service.authentication(request));
     }
 
     @PostMapping(path = "/{token}")
     @Operation(description = "Ativar conta de usuário", method = "POST")
-    @ApiResponse(responseCode = "200", description = "Ativação efetuada com sucesso")
+    @ApiResponses({
+            @ApiResponse(responseCode = "200", description = "Ativação efetuada com sucesso"),
+    })
     public ResponseEntity<Void> activeAccount(@PathVariable String token) {
         service.activeAccount(token);
         return ResponseEntity.ok().build();
@@ -58,7 +65,11 @@ public class UserController {
 
     @GetMapping(path = "/me")
     @Operation(description = "Pegar dados do perfil", method = "GET")
-    @ApiResponse(responseCode = "200", description = "Dados retornado com sucesso")
+
+    @ApiResponses({
+            @ApiResponse(responseCode = "200", description = "Dados retornado com sucesso"),
+            @ApiResponse(responseCode = "403", description = "Usuário não autenticado")
+    })
     public ResponseEntity<UserResponseGetProfileInfoDTO> getMe(@AuthenticationPrincipal User user) {
         return ResponseEntity.ok().body(service.getUserProfile(user));
     }
