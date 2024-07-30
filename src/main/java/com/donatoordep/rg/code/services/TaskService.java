@@ -7,7 +7,6 @@ import com.donatoordep.rg.code.dtos.response.TaskResponseRegisterDTO;
 import com.donatoordep.rg.code.dtos.response.TaskResponseUpdateDTO;
 import com.donatoordep.rg.code.entities.Task;
 import com.donatoordep.rg.code.entities.User;
-import com.donatoordep.rg.code.enums.TaskStatus;
 import com.donatoordep.rg.code.mappers.entities.TaskMapper;
 import com.donatoordep.rg.code.repositories.impl.TaskRepository;
 import com.donatoordep.rg.code.services.validations.task.update.TaskUpdateArgs;
@@ -31,7 +30,6 @@ public class TaskService {
 
     private List<TaskUpdateValidation> updateValidations;
 
-    @Autowired
     public TaskService(TaskRepository taskRepository, List<TaskUpdateValidation> updateValidations) {
         this.taskRepository = taskRepository;
         this.updateValidations = updateValidations;
@@ -55,7 +53,6 @@ public class TaskService {
 
     public TaskResponseUpdateDTO update(User user, TaskRequestUpdateDTO request) {
         Task entity = taskRepository.findByIdOrThrowNotFound(request.id());
-        TaskStatus.valueOfOrThrowNotExists(request.status());
 
         updateValidations.forEach(validation -> {
             validation.validate(new TaskUpdateArgs(request, entity));

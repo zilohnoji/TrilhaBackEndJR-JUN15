@@ -22,6 +22,7 @@ import com.donatoordep.rg.code.util.TokenUtil;
 import jakarta.mail.MessagingException;
 import org.junit.jupiter.api.*;
 import org.mockito.ArgumentMatchers;
+import org.mockito.InjectMocks;
 import org.mockito.Mockito;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
@@ -34,13 +35,16 @@ import java.util.List;
 @DisplayName("UserService - Service Class Test")
 class UserServiceTest extends ApplicationConfigTest {
 
+    @InjectMocks
+    protected UserService userService;
+
     User entity;
     Task task;
     EmailCodeConfirmation code;
     EmailCodeConfirmation expiredCode;
 
     @BeforeEach
-    void setupAll() {
+    void setup() {
         this.userService.setActiveAccountValidations(
                 Arrays.asList(
                         new ExpiredTokenValidation(),

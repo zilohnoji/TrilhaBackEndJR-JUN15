@@ -7,6 +7,8 @@ import com.donatoordep.rg.code.dtos.response.UserResponseGetProfileInfoDTO;
 import com.donatoordep.rg.code.dtos.response.UserResponseRegisterDTO;
 import com.donatoordep.rg.code.entities.User;
 import com.donatoordep.rg.code.services.UserService;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import jakarta.mail.MessagingException;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -29,6 +31,8 @@ public class UserController {
     }
 
     @PostMapping
+    @Operation(description = "Cadastrar um novo usuário", method = "POST")
+    @ApiResponse(responseCode = "201", description = "Usuário cadastrado com sucesso")
     public ResponseEntity<UserResponseRegisterDTO> register(@RequestBody @Valid UserRequestRegisterDTO request)
             throws MessagingException, UnsupportedEncodingException {
         UserResponseRegisterDTO response = service.register(request);
@@ -38,17 +42,23 @@ public class UserController {
     }
 
     @PostMapping(path = "/auth")
+    @Operation(description = "Autenticar usuário", method = "POST")
+    @ApiResponse(responseCode = "200", description = "Usuário autenticado com sucesso")
     public ResponseEntity<UserResponseAuthenticationDTO> authentication(@RequestBody @Valid UserRequestAuthenticationDTO request) {
         return ResponseEntity.ok().body(service.authentication(request));
     }
 
     @PostMapping(path = "/{token}")
+    @Operation(description = "Ativar conta de usuário", method = "POST")
+    @ApiResponse(responseCode = "200", description = "Ativação efetuada com sucesso")
     public ResponseEntity<Void> activeAccount(@PathVariable String token) {
         service.activeAccount(token);
         return ResponseEntity.ok().build();
     }
 
     @GetMapping(path = "/me")
+    @Operation(description = "Pegar dados do perfil", method = "GET")
+    @ApiResponse(responseCode = "200", description = "Dados retornado com sucesso")
     public ResponseEntity<UserResponseGetProfileInfoDTO> getMe(@AuthenticationPrincipal User user) {
         return ResponseEntity.ok().body(service.getUserProfile(user));
     }

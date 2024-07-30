@@ -11,7 +11,7 @@ public class TaskStatusNullableValidation implements TaskUpdateValidation {
     @Override
     public void validate(TaskUpdateArgs args) {
         if (!(args.dto().status() == null)) {
-            args.entity().setStatus(TaskStatus.valueOf(args.dto().status().toUpperCase()));
+            args.entity().setStatus(TaskStatus.valueOfOrThrowNotExists(args.dto().status()));
         }
     }
 }

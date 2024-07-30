@@ -22,6 +22,24 @@ public class TaskFactory {
                 .build();
     }
 
+    public static Task createTask(String title) {
+        return Task.TaskBuilder.builder()
+                .id(UUID.randomUUID())
+                .title(title)
+                .content(CONTENT)
+                .status(STATUS)
+                .build();
+    }
+
+    public static Task createTask(UUID id) {
+        return Task.TaskBuilder.builder()
+                .id(id)
+                .title(TITLE)
+                .content(CONTENT)
+                .status(STATUS)
+                .build();
+    }
+
     public static Task createTask(User user) {
         return Task.TaskBuilder.builder()
                 .id(UUID.randomUUID())
