@@ -46,7 +46,7 @@ public class WebSecurityConfig {
 
         http.csrf(AbstractHttpConfigurer::disable);
         http.sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS));
-        http.cors(AbstractHttpConfigurer::disable);
+        http.cors(cors -> cors.configurationSource(configureResourceOfCors()));
 
         http.authorizeHttpRequests(authorization -> {
             authorization.requestMatchers(this.getWhiteListUrl()).permitAll();
