@@ -1,0 +1,44 @@
+spring:
+  application:
+    name: rg-code
+
+  profiles:
+    active: test
+
+  messages:
+    basename: i18n/messages
+    encoding: UTF-8
+    cache-during: 3600
+
+  mvc:
+    locale: pt-BR
+    locale-resolver: accept-header
+
+  mail:
+    host: smtp.gmail.com
+    port: 587
+    username: ${SMTP_EMAIL:donatopedro.developer@gmail.com}
+    password: ${SMTP_PASSWORD:iwagoqeghjlnpvnt}
+    test-connection: false
+    properties:
+      mail:
+        smtp:
+          auth: true
+          starttls:
+            required: true
+            enable: true
+
+    support:
+      mail: ${SMTP_SUPPORT_EMAIL:donatopedro.developer@gmail.com}
+
+  jpa:
+    show_sql: true
+    open-in-view: false
+    database-platform: org.hibernate.community.dialect.SQLiteDialect
+
+    hibernate:
+      ddl-auto: create-drop
+
+  datasource:
+    driverClassName: org.sqlite.JDBC
+    url: jdbc:sqlite:memory:myDb?cache=shared
