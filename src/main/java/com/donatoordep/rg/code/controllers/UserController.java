@@ -65,7 +65,6 @@ public class UserController {
 
     @GetMapping(path = "/me")
     @Operation(description = "Pegar dados do perfil", method = "GET")
-
     @ApiResponses({
             @ApiResponse(responseCode = "200", description = "Dados retornado com sucesso"),
             @ApiResponse(responseCode = "403", description = "Usuário não autenticado")

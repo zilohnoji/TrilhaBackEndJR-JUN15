@@ -7,6 +7,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Profile;
 
+import java.util.Collections;
+import java.util.List;
+
 @Configuration
 @Profile("test")
 public class TestDataInitializer {
@@ -20,13 +23,20 @@ public class TestDataInitializer {
     }
 
     public void loadUserTest() {
-        User userForTest = User.UserBuilder.builder()
+        User activeUser = User.UserBuilder.builder()
                 .name("Test Profile")
                 .password("$2a$12$MtE9CrE3NPFXOj2c0SJC9e8k12f3ntvN81I32AMKoJ7VmNty9Lv1W")
                 .email("test@gmail.com")
                 .role(RoleName.ROLE_USER)
                 .build().activeAccount();
 
-        this.userRepository.save(userForTest);
+        User inactiveUser = User.UserBuilder.builder()
+                .name("Test Profile Inactive")
+                .password("$2a$12$MtE9CrE3NPFXOj2c0SJC9e8k12f3ntvN81I32AMKoJ7VmNty9Lv1W")
+                .email("testInactive@gmail.com")
+                .role(RoleName.ROLE_USER)
+                .build();
+
+        this.userRepository.saveAll(List.of(activeUser, inactiveUser));
     }
 }
