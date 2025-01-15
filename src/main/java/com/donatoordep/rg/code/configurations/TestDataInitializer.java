@@ -32,7 +32,7 @@ public class TestDataInitializer {
         User inactiveUserForTest = User.UserBuilder.builder()
                 .name("Test Profile")
                 .password("$2a$12$MtE9CrE3NPFXOj2c0SJC9e8k12f3ntvN81I32AMKoJ7VmNty9Lv1W")
-                .email("test@gmail.com")
+                .email("test2@gmail.com")
                 .role(RoleName.ROLE_USER)
                 .build();
 

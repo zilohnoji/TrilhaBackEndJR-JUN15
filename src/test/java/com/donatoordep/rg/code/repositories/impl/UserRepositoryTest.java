@@ -3,10 +3,7 @@ package com.donatoordep.rg.code.repositories.impl;
 import com.donatoordep.rg.code.entities.User;
 import com.donatoordep.rg.code.factory.UserFactory;
 import com.donatoordep.rg.code.util.ApplicationConfigTest;
-import org.junit.jupiter.api.Assertions;
-import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.DisplayName;
-import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.*;
 import org.mockito.ArgumentMatchers;
 import org.mockito.Mockito;
 
@@ -20,12 +17,15 @@ public class UserRepositoryTest extends ApplicationConfigTest {
         this.user = UserFactory.createUser();
     }
 
-    @Test
-    void findByEmailOrThrowNotFoundShouldReturnUserWhenEmailHasExists() {
-        Mockito.when(this.userRepository.findByEmailOrThrowNotFound(ArgumentMatchers.anyString())).thenReturn(user);
+    @Nested
+    public class UserRepositoryTestFail {
+        @Test
+        void findByEmailOrThrowNotFoundShouldReturnUserWhenEmailHasExists() {
+            Mockito.when(userRepository.findByEmailOrThrowNotFound(ArgumentMatchers.anyString())).thenReturn(user);
 
-        Assertions.assertDoesNotThrow(() -> {
-            this.userRepository.findByEmailOrThrowNotFound("user@gmail.com");
-        }, "Expected nothing exception, but throw exception");
+            Assertions.assertDoesNotThrow(() -> {
+                userRepository.findByEmailOrThrowNotFound("user@gmail.com");
+            }, "Expected nothing exception, but throw exception");
+        }
     }
 }
