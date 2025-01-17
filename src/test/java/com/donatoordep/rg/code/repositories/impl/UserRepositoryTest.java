@@ -20,7 +20,7 @@ public class UserRepositoryTest extends ApplicationConfigTest {
     @Nested
     public class UserRepositoryTestFail {
         @Test
-        void findByEmailOrThrowNotFoundShouldReturnUserWhenEmailHasExists() {
+        void findByEmailOrThrowNotFoundShouldReturnNotFoundExceptionWhenEmailNotExists() {
             Mockito.when(userRepository.findByEmailOrThrowNotFound(ArgumentMatchers.anyString())).thenReturn(user);
 
             Assertions.assertDoesNotThrow(() -> {
