@@ -1,7 +1,10 @@
 package com.donatoordep.rg.code.configurations;
 
+import com.donatoordep.rg.code.entities.Task;
 import com.donatoordep.rg.code.entities.User;
 import com.donatoordep.rg.code.enums.RoleName;
+import com.donatoordep.rg.code.enums.TaskStatus;
+import com.donatoordep.rg.code.repositories.impl.TaskRepository;
 import com.donatoordep.rg.code.repositories.impl.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Configuration;
@@ -14,10 +17,12 @@ import java.util.List;
 public class TestDataInitializer {
 
     private final UserRepository userRepository;
+    private final TaskRepository taskRepository;
 
     @Autowired
-    public TestDataInitializer(UserRepository userRepository) {
+    public TestDataInitializer(UserRepository userRepository, TaskRepository taskRepository) {
         this.userRepository = userRepository;
+        this.taskRepository = taskRepository;
         this.loadUserTest();
     }
 
@@ -37,5 +42,14 @@ public class TestDataInitializer {
                 .build();
 
         this.userRepository.saveAll(List.of(userForTest, inactiveUserForTest));
+
+        Task taskForTest = Task.TaskBuilder.builder()
+                .user(userForTest)
+                .title("Task Title")
+                .content("Task Content")
+                .status(TaskStatus.PROGRESS)
+                .build();
+
+        this.taskRepository.save(taskForTest);
     }
 }
